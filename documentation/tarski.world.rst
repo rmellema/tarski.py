@@ -1,7 +1,7 @@
-tarski\.model module
+tarski\.world module
 ====================
 
-.. automodule:: tarski.model
+.. automodule:: tarski.world
     :members:
     :undoc-members:
     :show-inheritance:

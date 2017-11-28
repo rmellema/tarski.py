@@ -2,7 +2,7 @@
 This module allows for the reading of Tarski's world files and transforming them into the
 corresponding formal structures.
 """
-from ..model import Model, Shape, Size
+from ..world import World, Shape, Size
 
 class ReadError(Exception):
     """
@@ -56,24 +56,24 @@ def read_block(filestream):
         raise ReadError("Expected name, found: '{}'".format(name[0]))
     return (Shape(shape_num), Size(size_num), x, y, name[1:])
 
-def read_file(filestream, model=None):
+def read_file(filestream, world=None):
     """
-    From a given file, read in all the blocks and add them to `model`. If `model` is not given, a
-    new model is created for you.
+    From a given file, read in all the blocks and add them to `world`. If `world` is not given, a
+    new world is created for you.
 
-    :param file filestream: The object from which to read the model. Can be any subclass from
+    :param file filestream: The object from which to read the world. Can be any subclass from
                             IOBase.
-    :param Model model: The model to read into. Defaults to the empty model
-    :returns: The new model
-    :rtype: Model
+    :param World world: The world to read into. Defaults to the empty world
+    :returns: The new world
+    :rtype: World
     """
-    if not model:
-        model = Model()
+    if not world:
+        world = World()
     num_blocks = skip_header(filestream)
     for _ in range(num_blocks):
         shape, size, x, y, name = read_block(filestream)
-        block = model.add_block(size, shape, (x, y))
+        block = world.add_block(size, shape, (x, y))
         if name:
-            model.add_constant(name, block)
+            world.add_constant(name, block)
     filestream.readline()
-    return model
+    return world

@@ -1,5 +1,5 @@
 """
-This module contains all the code for representing the blocks world models in Python.
+This module contains all the code for representing the blocks world in Python.
 """
 from enum import Enum
 from itertools import product
@@ -65,7 +65,7 @@ class Block:
 
     @property
     def identifier(self):
-        "The id that this block was given. Should be unique for a model."
+        "The id that this block was given. Should be unique for a world."
         return self._id
 
     def is_tetrahedron(self):
@@ -116,21 +116,21 @@ class Block:
         """
         return self.size > other.size
 
-class Model:
+class World:
     """
-    The model that holds all of the actual blocks. It has the following attributes:
+    The world that holds all of the actual blocks. It has the following attributes:
 
     .. py:attribute:: x_size
 
-        The size of this board in the x direction. Has to be set at initialization. Defaults to 8.
+        The size of the board in the x direction. Has to be set at initialization. Defaults to 8.
 
     .. py:attribute:: y_size
 
-        The size of this board in the y direction. Has to be set at initialization. Defaults to 8.
+        The size of the board in the y direction. Has to be set at initialization. Defaults to 8.
 
     .. py:attribute:: domain
 
-        A set of blocks that symbolize all the blocks that are in this model. It should not be
+        A set of blocks that symbolize all the blocks that are in this world. It should not be
         directly altered.
     """
     def __init__(self, x_size=8, y_size=8):
@@ -141,10 +141,10 @@ class Model:
         self._constants = {}
 
     def __str__(self):
-        "Return a string representation of the model"
+        "Return a string representation of the world"
         blocks = [str(block) for block in self.domain]
         names = [str((name, str(self.get_constant(name)))) for name in self._constants]
-        return "<Model: [{}]\n\t[{}]>".format(' '.join(blocks), ' '.join(names))
+        return "<World: [{}]\n\t[{}]>".format(' '.join(blocks), ' '.join(names))
 
     def add_constant(self, name, block):
         """
@@ -182,7 +182,7 @@ class Model:
 
     def add_block(self, size=Size.MEDIUM, shape=Shape.CUBE, loc=None):
         """
-        Add a new block to this model.
+        Add a new block to this world.
 
         :param Size size: The size of the block to add, defaults to Medium.
         :param Shape shape: The shape of the block to add, defaults to Cube.
@@ -212,7 +212,7 @@ class Model:
 
     def remove_block(self, block):
         """
-        Remove a block from the model. Will also remove any constant names assigned to this block.
+        Remove a block from the world. Will also remove any constant names assigned to this block.
 
         :param block: The block to remove. If it is a string, it is interpreted as a constant name
                         that is bound to a block.
