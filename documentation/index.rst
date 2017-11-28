@@ -15,6 +15,7 @@ and reading in Tarski's World files.
    :maxdepth: 2
    :caption: Contents:
 
+   File Format Description <file_format>
    Code documentation <tarski>
 
 
