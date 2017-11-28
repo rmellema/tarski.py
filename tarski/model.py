@@ -143,7 +143,7 @@ class Model:
     def __str__(self):
         "Return a string representation of the model"
         blocks = [str(block) for block in self.domain]
-        names = [(name, str(self.get_constant(name))) for name in self._constants]
+        names = [str((name, str(self.get_constant(name)))) for name in self._constants]
         return "<Model: [{}]\n\t[{}]>".format(' '.join(blocks), ' '.join(names))
 
     def add_constant(self, name, block):
