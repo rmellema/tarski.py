@@ -6,3 +6,11 @@ tarski package
     :undoc-members:
     :show-inheritance:
 
+Submodules
+----------
+
+.. toctree::
+
+   tarski.model
+   tarski.util
+
