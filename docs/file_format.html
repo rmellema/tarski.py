@@ -1,0 +1,176 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tarski’s World File Format &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tarski-s-world-file-format">
+<h1>Tarski’s World File Format<a class="headerlink" href="#tarski-s-world-file-format" title="Permalink to this headline">¶</a></h1>
+<p><cite>tarski.py</cite> is meant to work with <cite>.wld</cite> files from <a class="reference external" href="https://ggweb.gradegrinder.net/tarskisworld">Tarski’s world</a>. This file
+format is however not defined, so it is written down here for future reference.
+All information presented here has been collected by trial and error and looking
+at the raw representation of these files, and are not endorsed by the authors
+of the original software.</p>
+<p>The format consists of three parts, a header, a body, and a footer, all of which
+are seperated over one or multiple ‘lines’, which are seperated by carriage
+returns.</p>
+<div class="section" id="header">
+<h2>Header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h2>
+<p>The header of a Tarski’s World file seems to consist of debug information.
+None of the presented information is necessary for the creation of the blocks
+world. We will now present this information line by line.</p>
+<ol class="arabic simple">
+<li>The Version number of the producing Tarski’s World.</li>
+<li>The OS on which the producing Tarski’s World was ran.</li>
+<li>The letters ‘Wld’ followed by a letter. Purpose unknown, but might be for
+versioning reasons.</li>
+<li>A line with large numbers seperated by letters. Purpose unknown. Seems to
+only be present from Tarski’s world version 7.</li>
+<li>A line with ‘s=’ followed by a number. Purpose unknown, but seems to be the
+CPU time at the start of saving. Also only present from Version 7 onward.</li>
+</ol>
+</div>
+<div class="section" id="body">
+<h2>Body<a class="headerlink" href="#body" title="Permalink to this headline">¶</a></h2>
+<p>The body seems to be the same between version 6 and 7. It starts of with just
+one number on a line, which specifies the number of blocks that are in this
+file. Then, for each of these blocks it lists the following information, per
+line:</p>
+<ol class="arabic simple">
+<li>The shape and the Size: <cite>n m</cite></li>
+<li>The location: <cite>x y</cite></li>
+<li>The name: <cite>‘i</cite></li>
+</ol>
+<p>Where <cite>x</cite> is the x location, <cite>y</cite> is the y location, <cite>i</cite> is a letter that is the
+name. Both <cite>n</cite> and <cite>m</cite> are numbers that range from 1 to 3, and whose meaning is
+explained in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="46%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><cite>n</cite>/<cite>m</cite></th>
+<th class="head">Shape</th>
+<th class="head">Size</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>Tetrahedron</td>
+<td>Small</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>Cube</td>
+<td>Medium</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>Dodecahedron</td>
+<td>Large</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="footer">
+<h2>Footer<a class="headerlink" href="#footer" title="Permalink to this headline">¶</a></h2>
+<p>The footer is a single line which starts with <cite>s=</cite> follewed by something that
+looks like the CPU time. The whole file is ended by a single <cite>;</cite>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tarski’s World File Format</a><ul>
+<li><a class="reference internal" href="#header">Header</a></li>
+<li><a class="reference internal" href="#body">Body</a></li>
+<li><a class="reference internal" href="#footer">Footer</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/file_format.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

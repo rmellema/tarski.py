@@ -1,0 +1,405 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.world &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for tarski.world</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains all the code for representing the blocks world in Python.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">OrderedEnum</span>
+
+<div class="viewcode-block" id="Shape"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Shape">[docs]</a><span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Describes the different shapes that an object can have in Tarski&#39;s World.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TETRAHEDRON</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">CUBE</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">DODECAHEDRON</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">TET</span> <span class="o">=</span> <span class="n">TETRAHEDRON</span>
+    <span class="n">DODEC</span> <span class="o">=</span> <span class="n">DODECAHEDRON</span></div>
+
+<div class="viewcode-block" id="Size"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Size">[docs]</a><span class="k">class</span> <span class="nc">Size</span><span class="p">(</span><span class="n">OrderedEnum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Describes the different sizes that an object can have. They are sorted so &quot;Small&quot; is the</span>
+<span class="sd">    smallest object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SMALL</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">LARGE</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+<div class="viewcode-block" id="Block"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block">[docs]</a><span class="k">class</span> <span class="nc">Block</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Describes a block in the Block World. It has the following attributes, which all have to be set</span>
+<span class="sd">    when the block is initialized.</span>
+
+<span class="sd">    .. py:attribute:: identifier</span>
+
+<span class="sd">        An unique identifier for this block. The creator of the Block must make sure it is</span>
+<span class="sd">        unique.</span>
+
+<span class="sd">    .. py:attribute:: shape</span>
+
+<span class="sd">        The shape of this Block.</span>
+
+<span class="sd">    .. py:attribute:: size</span>
+
+<span class="sd">        The size of this block</span>
+
+<span class="sd">    .. py:attribute:: x</span>
+
+<span class="sd">        The x location of this block on the board</span>
+
+<span class="sd">    .. py:attribute:: y</span>
+
+<span class="sd">        The y location of this block on the board</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Return a string representation of the Block&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Block: </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">, (</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;The id that this block was given. Should be unique for a world.&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+<div class="viewcode-block" id="Block.is_tetrahedron"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_tetrahedron">[docs]</a>    <span class="k">def</span> <span class="nf">is_tetrahedron</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is a Tetrahedron&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">Shape</span><span class="o">.</span><span class="n">TETRAHEDRON</span></div>
+
+<div class="viewcode-block" id="Block.is_cube"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_cube">[docs]</a>    <span class="k">def</span> <span class="nf">is_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is a Cube&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">Shape</span><span class="o">.</span><span class="n">CUBE</span></div>
+
+<div class="viewcode-block" id="Block.is_dodecahedron"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_dodecahedron">[docs]</a>    <span class="k">def</span> <span class="nf">is_dodecahedron</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is a Dodecahedron&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">Shape</span><span class="o">.</span><span class="n">DODECAHEDRON</span></div>
+
+<div class="viewcode-block" id="Block.is_small"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_small">[docs]</a>    <span class="k">def</span> <span class="nf">is_small</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is small&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">Size</span><span class="o">.</span><span class="n">SMALL</span></div>
+
+<div class="viewcode-block" id="Block.is_medium"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_medium">[docs]</a>    <span class="k">def</span> <span class="nf">is_medium</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is medium&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">Size</span><span class="o">.</span><span class="n">MEDIUM</span></div>
+
+<div class="viewcode-block" id="Block.is_large"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_large">[docs]</a>    <span class="k">def</span> <span class="nf">is_large</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if this block is medium&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">Size</span><span class="o">.</span><span class="n">LARGE</span></div>
+
+<div class="viewcode-block" id="Block.is_same_size"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_same_size">[docs]</a>    <span class="k">def</span> <span class="nf">is_same_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if the blocks are the same size&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span></div>
+
+<div class="viewcode-block" id="Block.is_same_shape"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_same_shape">[docs]</a>    <span class="k">def</span> <span class="nf">is_same_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="s2">&quot;Tests if the blocks are the same shape&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shape</span></div>
+
+<div class="viewcode-block" id="Block.is_smaller"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_smaller">[docs]</a>    <span class="k">def</span> <span class="nf">is_smaller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is smaller than the `other` block.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span></div>
+
+<div class="viewcode-block" id="Block.is_larger"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_larger">[docs]</a>    <span class="k">def</span> <span class="nf">is_larger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is larger than the `other` block.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span></div>
+
+<div class="viewcode-block" id="Block.in_same_column"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.in_same_column">[docs]</a>    <span class="k">def</span> <span class="nf">in_same_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is in the same column as the other block.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span></div>
+
+<div class="viewcode-block" id="Block.in_same_row"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.in_same_row">[docs]</a>    <span class="k">def</span> <span class="nf">in_same_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is in the same row as the other block.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+
+<div class="viewcode-block" id="Block.does_adjoin"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.does_adjoin">[docs]</a>    <span class="k">def</span> <span class="nf">does_adjoin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is next to another block, but not diagonally.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_row</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_column</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Block.is_left_of"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_left_of">[docs]</a>    <span class="k">def</span> <span class="nf">is_left_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is nearer to the left edge of the grid than `other`.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span></div>
+
+<div class="viewcode-block" id="Block.is_right_of"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_right_of">[docs]</a>    <span class="k">def</span> <span class="nf">is_right_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is nearer to the right edge of the grid than `other`.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span></div>
+
+<div class="viewcode-block" id="Block.is_front_of"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_front_of">[docs]</a>    <span class="k">def</span> <span class="nf">is_front_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is nearer to the front edge of the grid than `other`.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+
+<div class="viewcode-block" id="Block.is_back_of"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.is_back_of">[docs]</a>    <span class="k">def</span> <span class="nf">is_back_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block is nearer to the back edge of the grid than `other`.</span>
+
+<span class="sd">        :param Block other: The block to test against.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+
+<div class="viewcode-block" id="Block.in_between"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.Block.in_between">[docs]</a>    <span class="k">def</span> <span class="nf">in_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tests if this block lies in between the other two blocks, and if they are all in the same</span>
+<span class="sd">        row, column, or diagonal.</span>
+
+<span class="sd">        :param Block first: The first block for the test</span>
+<span class="sd">        :param Block second: The second block for the test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">second</span><span class="o">.</span><span class="n">x</span> <span class="ow">or</span> <span class="n">first</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">second</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> \
+           <span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">second</span><span class="o">.</span><span class="n">y</span> <span class="ow">or</span> <span class="n">first</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">second</span><span class="o">.</span><span class="n">y</span><span class="p">):</span> <span class="c1"># self is in between</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_row</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_row</span><span class="p">(</span><span class="n">second</span><span class="p">):</span> <span class="c1"># All same row</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_column</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_same_column</span><span class="p">(</span><span class="n">second</span><span class="p">):</span> <span class="c1"># All same column</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="n">sdc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">sdc</span> <span class="o">==</span> <span class="n">first</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">first</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sdc</span> <span class="o">==</span> <span class="n">second</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">second</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="c1"># All same diagonal</span>
+        <span class="k">return</span> <span class="kc">False</span></div></div>
+
+<div class="viewcode-block" id="World"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World">[docs]</a><span class="k">class</span> <span class="nc">World</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The world that holds all of the actual blocks. It has the following attributes:</span>
+
+<span class="sd">    .. py:attribute:: x_size</span>
+
+<span class="sd">        The size of the board in the x direction. Has to be set at initialization. Defaults to 8.</span>
+
+<span class="sd">    .. py:attribute:: y_size</span>
+
+<span class="sd">        The size of the board in the y direction. Has to be set at initialization. Defaults to 8.</span>
+
+<span class="sd">    .. py:attribute:: domain</span>
+
+<span class="sd">        A set of blocks that symbolize all the blocks that are in this world. It should not be</span>
+<span class="sd">        directly altered.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">y_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_size</span> <span class="o">=</span> <span class="n">x_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_size</span> <span class="o">=</span> <span class="n">y_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id_counter</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Return a string representation of the world&quot;</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_constant</span><span class="p">(</span><span class="n">name</span><span class="p">))))</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;World: [</span><span class="si">{}</span><span class="s2">]</span><span class="se">\n\t</span><span class="s2">[</span><span class="si">{}</span><span class="s2">]&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">blocks</span><span class="p">),</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
+
+<div class="viewcode-block" id="World.add_constant"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.add_constant">[docs]</a>    <span class="k">def</span> <span class="nf">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign `name` to `block`, so `name` becomes a constant for `block`. If `name` is already</span>
+<span class="sd">        a constant, its value gets changed.</span>
+
+<span class="sd">        :param str name: The name to assign to `block`.</span>
+<span class="sd">        :param Block block: The block to assign `name` to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span></div>
+
+<div class="viewcode-block" id="World.get_constant"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.get_constant">[docs]</a>    <span class="k">def</span> <span class="nf">get_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the block bound to `name`, or a KeyError is there is none.</span>
+
+<span class="sd">        :param str name: The name for which we want to get the block.</span>
+<span class="sd">        :return: The block assigned to `name`.</span>
+<span class="sd">        :rtype: Block</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;No constant with name &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="World.remove_constant"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.remove_constant">[docs]</a>    <span class="k">def</span> <span class="nf">remove_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the constant `name`, but not the block that it is a name for.</span>
+
+<span class="sd">        :param str name: The constant to remove.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="World.all_constants"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.all_constants">[docs]</a>    <span class="k">def</span> <span class="nf">all_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an iterator over all the constants</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="World.add_block"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.add_block">[docs]</a>    <span class="k">def</span> <span class="nf">add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Size</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">Shape</span><span class="o">.</span><span class="n">CUBE</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new block to this world.</span>
+
+<span class="sd">        :param Size size: The size of the block to add, defaults to Medium.</span>
+<span class="sd">        :param Shape shape: The shape of the block to add, defaults to Cube.</span>
+<span class="sd">        :param (int, int) loc: The location of the block as (x, y) coordinates, defaults to the</span>
+<span class="sd">                                first available position.</span>
+<span class="sd">        :return: The newly created block</span>
+<span class="sd">        :rtype: Block</span>
+<span class="sd">        :raises ValueError: if the x or y of the block is out of range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">locs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">block</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">locs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_size</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_size</span><span class="p">)):</span>
+                <span class="nb">print</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">locs</span><span class="p">:</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                    <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_size</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x value for block out of range&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_size</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y value for block out of range&quot;</span><span class="p">)</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id_counter</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">block</span></div>
+
+<div class="viewcode-block" id="World.remove_block"><a class="viewcode-back" href="../../tarski.world.html#tarski.world.World.remove_block">[docs]</a>    <span class="k">def</span> <span class="nf">remove_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a block from the world. Will also remove any constant names assigned to this block.</span>
+
+<span class="sd">        :param block: The block to remove. If it is a string, it is interpreted as a constant name</span>
+<span class="sd">                        that is bound to a block.</span>
+<span class="sd">        :type block: Block or str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">constants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">constants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_constant</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constants</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">block</span><span class="p">:</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">constants</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_constant</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

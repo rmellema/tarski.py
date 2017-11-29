@@ -1,0 +1,266 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.model &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for tarski.model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A module for representing the actual first-order structure of a Block World. The structure can</span>
+<span class="sd">either be made from a World, or be made by hand.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../tarski.model.html#tarski.model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The model that represents the first-order structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">world</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_entity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">world</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_from_world</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;M(D) = {&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;d</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="s1">&#39;M(</span><span class="si">{}</span><span class="s1">) = d</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">constant</span><span class="p">,</span> <span class="n">entity</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">constant</span><span class="p">,</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="s1">&#39;M(</span><span class="si">{}</span><span class="s1">) = {{&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span> <span class="o">+</span>
+                   <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;b</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span>
+                            <span class="k">for</span> <span class="n">entities</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+                   <span class="k">for</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">extension</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_unary_predicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all the information about the unary predicates from `world` to this model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Tet&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Dodec&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Small&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Medium&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Large&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_tetrahedron</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Tet&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_cube</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_dodecahedron</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Dodec&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_small</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_medium</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Medium&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_large</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_add_binary_predicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all the information about the binary predicates from `world` to this model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=too-many-branches</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;SameSize&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;SameShape&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Larger&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Smaller&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;SameCol&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;SameRow&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Adjoins&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;LeftOf&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;RightOf&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;FrontOf&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;BackOf&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_same_size</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;SameSize&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_same_shape</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;SameShape&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">block</span> <span class="o">!=</span> <span class="n">other</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_smaller</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Smaller&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_larger</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Larger&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">in_same_column</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;SameCol&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">in_same_row</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;SameRow&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">does_adjoin</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Adjoins&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_left_of</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;LeftOf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_right_of</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;RightOf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_front_of</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;FrontOf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">is_back_of</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;BackOf&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_add_trinary_predicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all the trinary predicates from `world` to the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_predicate</span><span class="p">(</span><span class="s2">&quot;Between&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">block</span> <span class="o">==</span> <span class="n">first</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">block</span> <span class="o">==</span> <span class="n">second</span> <span class="ow">or</span> <span class="n">first</span> <span class="o">==</span> <span class="n">second</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">first</span><span class="o">.</span><span class="n">in_between</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Between&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span>
+                                                          <span class="n">second</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+                        <span class="c1"># If a block is between a and b, then it is also between b and a</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_extension</span><span class="p">(</span><span class="s2">&quot;Between&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span>
+                                                          <span class="n">first</span><span class="o">.</span><span class="n">identifier</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_from_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new model from a World.</span>
+
+<span class="sd">        :param World world: The world to create a model from</span>
+<span class="sd">        :returns: The newly created model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_entity</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">constant</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">all_constants</span><span class="p">():</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">get_constant</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">constant</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
+        <span class="c1"># Adding the predicates #</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_unary_predicates</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_binary_predicates</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_trinary_predicates</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Model.add_entity"><a class="viewcode-back" href="../../tarski.model.html#tarski.model.Model.add_entity">[docs]</a>    <span class="k">def</span> <span class="nf">add_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new entity to the model. If no entity is specified a new one will be generated.</span>
+
+<span class="sd">        :param entity: The entity to add. If None, a new entity will be made.</span>
+<span class="sd">        :returns: The new entity added.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">entity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_entity</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_entity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">entity</span></div>
+
+<div class="viewcode-block" id="Model.add_constant"><a class="viewcode-back" href="../../tarski.model.html#tarski.model.Model.add_constant">[docs]</a>    <span class="k">def</span> <span class="nf">add_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">entity</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a (new) name for an already existing entity.</span>
+
+<span class="sd">        :param str constant: The name</span>
+<span class="sd">        :param entity: The entity for which to add the name</span>
+<span class="sd">        :raises ValueError: If the entity is not already in the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">entity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The given entity is not in the domain&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">[</span><span class="n">constant</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span></div>
+
+<div class="viewcode-block" id="Model.add_predicate"><a class="viewcode-back" href="../../tarski.model.html#tarski.model.Model.add_predicate">[docs]</a>    <span class="k">def</span> <span class="nf">add_predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a predicate with `name`.</span>
+
+<span class="sd">        :param str name: The name of the new predicate. Will be Sentence cased if it is not already.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Model.add_to_extension"><a class="viewcode-back" href="../../tarski.model.html#tarski.model.Model.add_to_extension">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all the `entities` to the extension of `predicate`.</span>
+
+<span class="sd">        :param str predicate: A predicate in the Model.</span>
+<span class="sd">        :param entities: The entities to be added to the extension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">predicate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No predicate named: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predicate</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">entity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Entity &#39;</span><span class="si">{}</span><span class="s2">&#39; not in model&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicates</span><span class="p">[</span><span class="n">predicate</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">entities</span><span class="p">))</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

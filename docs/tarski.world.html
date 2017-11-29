@@ -1,0 +1,528 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.world module &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="tarski.util module" href="tarski.util.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.util.html" title="tarski.util module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" accesskey="U">tarski package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-tarski.world">
+<span id="tarski-world-module"></span><h1>tarski.world module<a class="headerlink" href="#module-tarski.world" title="Permalink to this headline">¶</a></h1>
+<p>This module contains all the code for representing the blocks world in Python.</p>
+<dl class="class">
+<dt id="tarski.world.Block">
+<em class="property">class </em><code class="descclassname">tarski.world.</code><code class="descname">Block</code><span class="sig-paren">(</span><em>identifier</em>, <em>size</em>, <em>shape</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Describes a block in the Block World. It has the following attributes, which all have to be set
+when the block is initialized.</p>
+<dl class="attribute">
+<dt id="tarski.world.Block.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#tarski.world.Block.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>An unique identifier for this block. The creator of the Block must make sure it is
+unique.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Block.shape">
+<code class="descname">shape</code><a class="headerlink" href="#tarski.world.Block.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of this Block.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Block.size">
+<code class="descname">size</code><a class="headerlink" href="#tarski.world.Block.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of this block</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Block.x">
+<code class="descname">x</code><a class="headerlink" href="#tarski.world.Block.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The x location of this block on the board</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Block.y">
+<code class="descname">y</code><a class="headerlink" href="#tarski.world.Block.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The y location of this block on the board</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.does_adjoin">
+<code class="descname">does_adjoin</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.does_adjoin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.does_adjoin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is next to another block, but not diagonally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">identifier</code></dt>
+<dd><p>The id that this block was given. Should be unique for a world.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.in_between">
+<code class="descname">in_between</code><span class="sig-paren">(</span><em>first</em>, <em>second</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.in_between"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.in_between" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block lies in between the other two blocks, and if they are all in the same
+row, column, or diagonal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The first block for the test</li>
+<li><strong>second</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The second block for the test</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.in_same_column">
+<code class="descname">in_same_column</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.in_same_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.in_same_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is in the same column as the other block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.in_same_row">
+<code class="descname">in_same_row</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.in_same_row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.in_same_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is in the same row as the other block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_back_of">
+<code class="descname">is_back_of</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_back_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_back_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is nearer to the back edge of the grid than <cite>other</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_cube">
+<code class="descname">is_cube</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is a Cube</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_dodecahedron">
+<code class="descname">is_dodecahedron</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_dodecahedron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_dodecahedron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is a Dodecahedron</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_front_of">
+<code class="descname">is_front_of</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_front_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_front_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is nearer to the front edge of the grid than <cite>other</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_large">
+<code class="descname">is_large</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_large"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_large" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is medium</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_larger">
+<code class="descname">is_larger</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_larger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_larger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is larger than the <cite>other</cite> block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_left_of">
+<code class="descname">is_left_of</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_left_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_left_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is nearer to the left edge of the grid than <cite>other</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_medium">
+<code class="descname">is_medium</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_medium"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_medium" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is medium</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_right_of">
+<code class="descname">is_right_of</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_right_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_right_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is nearer to the right edge of the grid than <cite>other</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_same_shape">
+<code class="descname">is_same_shape</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_same_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_same_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if the blocks are the same shape</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_same_size">
+<code class="descname">is_same_size</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_same_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_same_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if the blocks are the same size</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_small">
+<code class="descname">is_small</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_small"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_small" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is small</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_smaller">
+<code class="descname">is_smaller</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_smaller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_smaller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is smaller than the <cite>other</cite> block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to test against.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.Block.is_tetrahedron">
+<code class="descname">is_tetrahedron</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#Block.is_tetrahedron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Block.is_tetrahedron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if this block is a Tetrahedron</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tarski.world.Shape">
+<em class="property">class </em><code class="descclassname">tarski.world.</code><code class="descname">Shape</code><a class="reference internal" href="_modules/tarski/world.html#Shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Describes the different shapes that an object can have in Tarski’s World.</p>
+<dl class="attribute">
+<dt id="tarski.world.Shape.CUBE">
+<code class="descname">CUBE</code><em class="property"> = 2</em><a class="headerlink" href="#tarski.world.Shape.CUBE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Shape.DODEC">
+<code class="descname">DODEC</code><em class="property"> = 3</em><a class="headerlink" href="#tarski.world.Shape.DODEC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Shape.DODECAHEDRON">
+<code class="descname">DODECAHEDRON</code><em class="property"> = 3</em><a class="headerlink" href="#tarski.world.Shape.DODECAHEDRON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Shape.TET">
+<code class="descname">TET</code><em class="property"> = 1</em><a class="headerlink" href="#tarski.world.Shape.TET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Shape.TETRAHEDRON">
+<code class="descname">TETRAHEDRON</code><em class="property"> = 1</em><a class="headerlink" href="#tarski.world.Shape.TETRAHEDRON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tarski.world.Size">
+<em class="property">class </em><code class="descclassname">tarski.world.</code><code class="descname">Size</code><a class="reference internal" href="_modules/tarski/world.html#Size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.Size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tarski.util.html#tarski.util.OrderedEnum" title="tarski.util.OrderedEnum"><code class="xref py py-class docutils literal"><span class="pre">tarski.util.OrderedEnum</span></code></a></p>
+<p>Describes the different sizes that an object can have. They are sorted so “Small” is the
+smallest object.</p>
+<dl class="attribute">
+<dt id="tarski.world.Size.LARGE">
+<code class="descname">LARGE</code><em class="property"> = 3</em><a class="headerlink" href="#tarski.world.Size.LARGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Size.MEDIUM">
+<code class="descname">MEDIUM</code><em class="property"> = 2</em><a class="headerlink" href="#tarski.world.Size.MEDIUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.Size.SMALL">
+<code class="descname">SMALL</code><em class="property"> = 1</em><a class="headerlink" href="#tarski.world.Size.SMALL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tarski.world.World">
+<em class="property">class </em><code class="descclassname">tarski.world.</code><code class="descname">World</code><span class="sig-paren">(</span><em>x_size=8</em>, <em>y_size=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The world that holds all of the actual blocks. It has the following attributes:</p>
+<dl class="attribute">
+<dt id="tarski.world.World.x_size">
+<code class="descname">x_size</code><a class="headerlink" href="#tarski.world.World.x_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of the board in the x direction. Has to be set at initialization. Defaults to 8.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.World.y_size">
+<code class="descname">y_size</code><a class="headerlink" href="#tarski.world.World.y_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of the board in the y direction. Has to be set at initialization. Defaults to 8.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.world.World.domain">
+<code class="descname">domain</code><a class="headerlink" href="#tarski.world.World.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>A set of blocks that symbolize all the blocks that are in this world. It should not be
+directly altered.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.add_block">
+<code class="descname">add_block</code><span class="sig-paren">(</span><em>size=&lt;Size.MEDIUM: 2&gt;</em>, <em>shape=&lt;Shape.CUBE: 2&gt;</em>, <em>loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.add_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.add_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new block to this world.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>size</strong> (<a class="reference internal" href="#tarski.world.Size" title="tarski.world.Size"><em>Size</em></a>) – The size of the block to add, defaults to Medium.</li>
+<li><strong>shape</strong> (<a class="reference internal" href="#tarski.world.Shape" title="tarski.world.Shape"><em>Shape</em></a>) – The shape of the block to add, defaults to Cube.</li>
+<li><strong>int</strong><strong>) </strong><strong>loc</strong> (<em>(</em><em>int</em><em>,</em>) – The location of the block as (x, y) coordinates, defaults to the
+first available position.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The newly created block</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block">Block</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>ValueError</strong> – if the x or y of the block is out of range.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.add_constant">
+<code class="descname">add_constant</code><span class="sig-paren">(</span><em>name</em>, <em>block</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.add_constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.add_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign <cite>name</cite> to <cite>block</cite>, so <cite>name</cite> becomes a constant for <cite>block</cite>. If <cite>name</cite> is already
+a constant, its value gets changed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) – The name to assign to <cite>block</cite>.</li>
+<li><strong>block</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a>) – The block to assign <cite>name</cite> to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.all_constants">
+<code class="descname">all_constants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.all_constants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.all_constants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator over all the constants</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.get_constant">
+<code class="descname">get_constant</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.get_constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.get_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the block bound to <cite>name</cite>, or a KeyError is there is none.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) – The name for which we want to get the block.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The block assigned to <cite>name</cite>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block">Block</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.remove_block">
+<code class="descname">remove_block</code><span class="sig-paren">(</span><em>block</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.remove_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.remove_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a block from the world. Will also remove any constant names assigned to this block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>block</strong> (<a class="reference internal" href="#tarski.world.Block" title="tarski.world.Block"><em>Block</em></a><em> or </em><em>str</em>) – The block to remove. If it is a string, it is interpreted as a constant name
+that is bound to a block.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.world.World.remove_constant">
+<code class="descname">remove_constant</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/world.html#World.remove_constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.world.World.remove_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the constant <cite>name</cite>, but not the block that it is a name for.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) – The constant to remove.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tarski.util.html"
+                        title="previous chapter">tarski.util module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tarski.world.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.util.html" title="tarski.util module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
