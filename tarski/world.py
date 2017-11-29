@@ -180,6 +180,12 @@ class World:
         except KeyError:
             pass
 
+    def all_constants(self):
+        """
+        Returns an iterator over all the constants
+        """
+        return self._constants.keys()
+
     def add_block(self, size=Size.MEDIUM, shape=Shape.CUBE, loc=None):
         """
         Add a new block to this world.
