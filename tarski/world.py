@@ -116,6 +116,84 @@ class Block:
         """
         return self.size > other.size
 
+    def in_same_column(self, other):
+        """
+        Tests if this block is in the same column as the other block.
+
+        :param Block other: The block to test against.
+        """
+        return self.x == other.x
+
+    def in_same_row(self, other):
+        """
+        Tests if this block is in the same row as the other block.
+
+        :param Block other: The block to test against.
+        """
+        return self.y == other.y
+
+    def does_adjoin(self, other):
+        """
+        Tests if this block is next to another block, but not diagonally.
+
+        :param Block other: The block to test against.
+        """
+        if self.in_same_row(other):
+            return abs(self.x - other.x) == 1
+        elif self.in_same_column(other):
+            return abs(self.y - other.y) == 1
+        return False
+
+    def is_left_of(self, other):
+        """
+        Tests if this block is nearer to the left edge of the grid than `other`.
+
+        :param Block other: The block to test against.
+        """
+        return self.x < other.x
+
+    def is_right_of(self, other):
+        """
+        Tests if this block is nearer to the right edge of the grid than `other`.
+
+        :param Block other: The block to test against.
+        """
+        return self.x > other.x
+
+    def is_front_of(self, other):
+        """
+        Tests if this block is nearer to the front edge of the grid than `other`.
+
+        :param Block other: The block to test against.
+        """
+        return self.y < other.y
+
+    def is_back_of(self, other):
+        """
+        Tests if this block is nearer to the back edge of the grid than `other`.
+
+        :param Block other: The block to test against.
+        """
+        return self.y > other.y
+
+    def in_between(self, first, second):
+        """
+        Tests if this block lies in between the other two blocks, and if they are all in the same
+        row, column, or diagonal.
+
+        :param Block first: The first block for the test
+        :param Block second: The second block for the test
+        """
+        if (first.x < self.x < second.x or first.x > self.x > second.x) and \
+           (first.y < self.y < second.y or first.y > self.y > second.y): # self is in between
+            if self.in_same_row(first) and self.in_same_row(second): # All same row
+                return True
+            if self.in_same_column(first) and self.in_same_column(second): # All same column
+                return True
+            sdc = self.x - self.y
+            return (sdc == first.x - first.y) and (sdc == second.x - second.y) # All same diagonal
+        return False
+
 class World:
     """
     The world that holds all of the actual blocks. It has the following attributes:

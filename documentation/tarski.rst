@@ -18,6 +18,7 @@ Submodules
 
 .. toctree::
 
+   tarski.model
    tarski.util
    tarski.world
 

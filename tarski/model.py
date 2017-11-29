@@ -7,11 +7,13 @@ class Model:
     """
     The model that represents the first-order structure.
     """
-    def __init__(self):
+    def __init__(self, *, world=None):
         self._last_entity = 0
         self.domain = set()
         self.constants = dict()
         self.predicates = dict()
+        if world:
+            self._from_world(world)
 
     def __str__(self):
         ret = []
@@ -52,6 +54,7 @@ class Model:
         """
         Add all the information about the binary predicates from `world` to this model.
         """
+        # pylint: disable=too-many-branches
         self.add_predicate("SameSize")
         self.add_predicate("SameShape")
         self.add_predicate("Larger")
@@ -74,25 +77,56 @@ class Model:
                         self.add_to_extension("Smaller", [block.identifier, other.identifier])
                     if block.is_larger(other):
                         self.add_to_extension("Larger", [block.identifier, other.identifier])
+                    if block.in_same_column(other):
+                        self.add_to_extension("SameCol", [block.identifier, other.identifier])
+                    if block.in_same_row(other):
+                        self.add_to_extension("SameRow", [block.identifier, other.identifier])
+                    if block.does_adjoin(other):
+                        self.add_to_extension("Adjoins", [block.identifier, other.identifier])
+                    if block.is_left_of(other):
+                        self.add_to_extension("LeftOf", [block.identifier, other.identifier])
+                    if block.is_right_of(other):
+                        self.add_to_extension("RightOf", [block.identifier, other.identifier])
+                    if block.is_front_of(other):
+                        self.add_to_extension("FrontOf", [block.identifier, other.identifier])
+                    if block.is_back_of(other):
+                        self.add_to_extension("BackOf", [block.identifier, other.identifier])
 
-    @classmethod
-    def from_world(cls, world):
+    def _add_trinary_predicates(self, world):
+        """
+        Add all the trinary predicates from `world` to the model.
+        """
+        self.add_predicate("Between")
+        for block in world.domain:
+            for first in world.domain:
+                if block == first:
+                    continue
+                for second in world.domain:
+                    if block == second or first == second:
+                        continue
+                    if first.in_between(first, second):
+                        self.add_to_extension("Between", [block.identifier, first.identifier,
+                                                          second.identifier])
+                        # If a block is between a and b, then it is also between b and a
+                        self.add_to_extension("Between", [block.identifier, second.identifier,
+                                                          first.identifier])
+
+    def _from_world(self, world):
         """
         Create a new model from a World.
 
         :param World world: The world to create a model from
         :returns: The newly created model.
         """
-        model = cls()
         for block in world.domain:
-            model.add_entity(block.identifier)
+            self.add_entity(block.identifier)
         for constant in world.all_constants():
             block = world.get_constant(constant)
-            model.add_constant(constant, block.identifier)
+            self.add_constant(constant, block.identifier)
         # Adding the predicates #
-        model._add_unary_predicates(world)
-        model._add_binary_predicates(world)
-        return model
+        self._add_unary_predicates(world)
+        self._add_binary_predicates(world)
+        self._add_trinary_predicates(world)
 
     def add_entity(self, entity=None):
         """
