@@ -83,11 +83,11 @@ def main():
         return 0
     if not args.files:
         parser.error("the following arguments are required: files")
-    plugin = find_plugin(args.format)
-    if plugin is None:
-        parser.error("unrecognized format: {}".format(args.format))
+    in_plugin = find_plugin(args.format)
+    if in_plugin is None:
+        parser.error("unrecognized input format: {}".format(args.format))
     use_header = None
-    convert(args.files, TarskiWorldReader, sys.stdout, use_header)
+    convert(args.files, in_plugin, sys.stdout, use_header)
 
 if __name__ == '__main__':
     main()
