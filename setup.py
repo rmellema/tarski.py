@@ -53,6 +53,7 @@ setup(name='tarski.py',
           ],
           'tarski.writers': [
               'plain = tarski.write.plain:PlainModelWriter',
+              'latex = tarski.write.latex:LaTeXModelWriter',
           ],
       },
      )
