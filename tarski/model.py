@@ -16,20 +16,9 @@ class Model:
             self._from_world(world)
 
     def __str__(self):
-        def make_pair(lst):
-            lst = list(lst)
-            if len(lst) == 1:
-                return str(lst[0])
-            return '<' + ', '.join(lst) + '>'
-        ret = []
-        ret.append('M(D) = {' + ', '.join('d{}'.format(id) for id in self.domain) + '}')
-        ret.extend('M({}) = d{}'.format(constant, entity)
-                   for constant, entity in self.constants.items())
-        ret.extend('M({}) = {{'.format(predicate) +
-                   ','.join(make_pair('d{}'.format(id) for id in entities)
-                            for entities in extension) + '}'
-                   for predicate, extension in self.predicates.items())
-        return '\n'.join(ret)
+        return "#<model domain: {} constants: {} {} predicates>".format(self.domain,
+                                                                        self.constants,
+                                                                        len(self.predicates.keys()))
 
     def _add_unary_predicates(self, world):
         """
