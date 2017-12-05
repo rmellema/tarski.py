@@ -60,12 +60,12 @@ class AbstractModelWriter(ABC):
             self.stream.write('\n')
 
     @abstractmethod
-    def write_predicate(self, name, relations):
+    def write_predicate(self, name, extension):
         """
         Write a predicate and its extension to the stream. Must be overwritten by definitions
 
         :param str name: The name of this predicate.
-        :param tuple[Block] relations: The set which defines this predicate.
+        :param tuple[Block] extension: The set which defines this predicate.
         """
 
     def write_predicates(self, predicates):

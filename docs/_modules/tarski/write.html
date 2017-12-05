@@ -108,12 +108,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AbstractModelWriter.write_predicate"><a class="viewcode-back" href="../../tarski.write.html#tarski.write.AbstractModelWriter.write_predicate">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">write_predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">relations</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">write_predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">extension</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a predicate and its extension to the stream. Must be overwritten by definitions</span>
 
 <span class="sd">        :param str name: The name of this predicate.</span>
-<span class="sd">        :param tuple[Block] relations: The set which defines this predicate.</span>
+<span class="sd">        :param tuple[Block] extension: The set which defines this predicate.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="AbstractModelWriter.write_predicates"><a class="viewcode-back" href="../../tarski.write.html#tarski.write.AbstractModelWriter.write_predicates">[docs]</a>    <span class="k">def</span> <span class="nf">write_predicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">):</span>
