@@ -51,5 +51,8 @@ setup(name='tarski.py',
           'tarski.readers': [
               'tarski = tarski.read.tarski:TarskiWorldReader',
           ],
+          'tarski.writers': [
+              'plain = tarski.write.plain:PlainModelWriter',
+          ],
       },
      )
