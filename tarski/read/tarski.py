@@ -2,78 +2,82 @@
 This module allows for the reading of Tarski's world files and transforming them into the
 corresponding formal structures.
 """
+from . import AbstractWorldReader, ReaderException
 from ..world import World, Shape, Size
 
-class ReadError(Exception):
+class TarskiWorldReader(AbstractWorldReader):
     """
-    An exception that is throw whenever the Reader finds something that it does not expect.
+    A reader for reading in Tarski's World files.
     """
-    pass
+    def format_name(self):
+        "The name of the format. Required by ABC"
+        return "tarski"
 
-def skip_header(filestream):
-    """
-    Skip enough lines in the file to find the actual number of blocks in this file.
+    def format_description(self):
+        "A short description of the format. Required by ABC"
+        return "The file format in use by Tarski's World."
 
-    :param file filestream: The filestream to read from. The header should still be intact
-    :returns: The number of blocks in this file
-    :rtype: int
-    """
-    filestream.readline()
-    filestream.readline()
-    wld = filestream.readline().strip()
-    if wld[-1] == 'P': # Version 6, probably
-        return int(filestream.readline().strip())
-    elif wld[-1] == 'F': # Version 7, probably
-        filestream.readline()
-        filestream.readline()
-        return int(filestream.readline().strip())
-    else:
-        raise ReadError("Unrecognized Wld Type: '{}'".format(wld[-1]))
+    def skip_header(self):
+        """
+        Skip enough lines in the file to find the actual number of blocks in this file.
 
-def read_numbers(filestream):
-    """
-    Read the two numbers that are on the next line, and return them as a tuple.
+        :raises ReaderException: If the Wld Type is not known
+        :returns: The number of blocks in this file
+        :rtype: int
+        """
+        self.stream.readline()
+        self.stream.readline()
+        wld = self.stream.readline().strip()
+        if wld[-1] == 'P': # Version 6, probably
+            return int(self.stream.readline().strip())
+        elif wld[-1] == 'F': # Version 7, probably
+            self.stream.readline()
+            self.stream.readline()
+            return int(self.stream.readline().strip())
+        else:
+            raise ReaderException("Unrecognized Wld Type: '{}'".format(wld[-1]))
 
-    :param file filestream: The Stream to read from.
-    :returns: A tuple with the numbers on the next line.
-    :rtype: tuple(int, int)
-    """
-    line = filestream.readline().strip().split(' ')
-    return (int(line[0]), int(line[1]))
+    def read_numbers(self):
+        """
+        Read the two numbers that are on the next line, and return them as a tuple.
 
-def read_block(filestream):
-    """
-    Read the next block from the stream.
+        :returns: A tuple with the numbers on the next line.
+        :rtype: tuple(int, int)
+        """
+        line = self.stream.readline().strip().split(' ')
+        return (int(line[0]), int(line[1]))
 
-    :param file filestream: The stream to read from.
-    :returns: The information for the next block, as a tuple
-    :rtype: tuple(Shape, Size, int, int, str)
-    """
-    shape_num, size_num = read_numbers(filestream)
-    x, y = read_numbers(filestream)
-    name = filestream.readline().strip()
-    if name[0] != "'":
-        raise ReadError("Expected name, found: '{}'".format(name[0]))
-    return (Shape(shape_num), Size(size_num), x, y, name[1:])
+    def read_block(self):
+        """
+        Read the next block from the stream.
 
-def read_file(filestream, world=None):
-    """
-    From a given file, read in all the blocks and add them to `world`. If `world` is not given, a
-    new world is created for you.
+        :raises ReaderException: If the block name is not given.
+        :returns: The information for the next block, as a tuple
+        :rtype: tuple(Shape, Size, int, int, str)
+        """
+        shape_num, size_num = self.read_numbers()
+        x, y = self.read_numbers()
+        name = self.stream.readline().strip()
+        if name[0] != "'":
+            raise ReaderException("Expected name, found: '{}'".format(name[0]))
+        return (Shape(shape_num), Size(size_num), x, y, name[1:])
 
-    :param file filestream: The object from which to read the world. Can be any subclass from
-                            IOBase.
-    :param World world: The world to read into. Defaults to the empty world
-    :returns: The new world
-    :rtype: World
-    """
-    if not world:
-        world = World()
-    num_blocks = skip_header(filestream)
-    for _ in range(num_blocks):
-        shape, size, x, y, name = read_block(filestream)
-        block = world.add_block(size, shape, (x, y))
-        if name:
-            world.add_constant(name, block)
-    filestream.readline()
-    return world
+    def read_world(self, world=None):
+        """
+        Read in a world from the stream. You can also use this to read new blocks into an already
+        existing world.
+
+        :param World world: The world to read into. Ignored if not given.
+        :returns: The new world
+        :rtype: World
+        """
+        if not world:
+            world = World()
+        num_blocks = self.skip_header()
+        for _ in range(num_blocks):
+            shape, size, x, y, name = self.read_block()
+            block = world.add_block(size, shape, (x, y))
+            if name:
+                world.add_constant(name, block)
+        self.stream.readline()
+        return world
