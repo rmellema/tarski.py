@@ -42,4 +42,14 @@ setup(name='tarski.py',
           'Topic :: Scientific/Engineering :: Artificial Intelligence',
           'Topic :: Utilities',
           ],
+
+      # Entry points
+      entry_points={
+          'console_scripts': [
+              'tarski = tarski.cli:main',
+          ],
+          'tarski.readers': [
+              'tarski = tarski.read.tarski:TarskiWorldReader',
+          ],
+      },
      )
