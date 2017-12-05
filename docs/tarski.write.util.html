@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>tarski package &#8212; tarski.py 0.1.0 documentation</title>
+    <title>tarski.write.util module &#8212; tarski.py 0.1.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="tarski.read package" href="tarski.read.html" />
-    <link rel="prev" title="Tarski’s World File Format" href="file_format.html" /> 
+    <link rel="next" title="tarski.cli module" href="tarski.cli.html" />
+    <link rel="prev" title="tarski.write.plain module" href="tarski.write.plain.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,12 +38,14 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tarski.read.html" title="tarski.read package"
+          <a href="tarski.cli.html" title="tarski.cli module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="file_format.html" title="Tarski’s World File Format"
+          <a href="tarski.write.plain.html" title="tarski.write.plain module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tarski.write.html" accesskey="U">tarski.write package</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -52,43 +54,38 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-tarski">
-<span id="tarski-package"></span><h1>tarski package<a class="headerlink" href="#module-tarski" title="Permalink to this headline">¶</a></h1>
-<p>This module is the main module for <cite>tarski.py</cite> and contains the methods for manipulating a simple
-blocks world.</p>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tarski.read.html">tarski.read package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tarski.read.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tarski.read.tarski.html">tarski.read.tarski module</a></li>
+  <div class="section" id="module-tarski.write.util">
+<span id="tarski-write-util-module"></span><h1>tarski.write.util module<a class="headerlink" href="#module-tarski.write.util" title="Permalink to this headline">¶</a></h1>
+<p>A collection of utility functions for writing the models.</p>
+<dl class="function">
+<dt id="tarski.write.util.make_pair">
+<code class="descclassname">tarski.write.util.</code><code class="descname">make_pair</code><span class="sig-paren">(</span><em>coll</em>, <em>lbracket='&lt;'</em>, <em>rbracket='&gt;'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/util.html#make_pair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.util.make_pair" title="Permalink to this definition">¶</a></dt>
+<dd><p>A context aware function for making a string representation of elements of relationships.
+It takes into account the length of the element. If there is just one element, the brackets are
+left of, but when there are more, all the elements will be seperated by a comma, and the
+brackets will be inserted as well.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coll</strong> – The collection that needs to be printed. Can be a generator, but cannot be
+infinite.</li>
+<li><strong>lbracket</strong> (<em>str</em>) – The bracket that goes on the left.</li>
+<li><strong>rbracket</strong> (<em>str</em>) – The bracket that goes on the right.</li>
 </ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tarski.write.html">tarski.write package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tarski.write.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tarski.write.plain.html">tarski.write.plain module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tarski.write.util.html">tarski.write.util module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tarski.cli.html">tarski.cli module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tarski.model.html">tarski.model module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tarski.util.html">tarski.util module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tarski.world.html">tarski.world module</a></li>
-</ul>
-</div>
-</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A context aware string representation of the pair.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
@@ -97,25 +94,16 @@ blocks world.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">tarski package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
-
   <h4>Previous topic</h4>
-  <p class="topless"><a href="file_format.html"
-                        title="previous chapter">Tarski’s World File Format</a></p>
+  <p class="topless"><a href="tarski.write.plain.html"
+                        title="previous chapter">tarski.write.plain module</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="tarski.read.html"
-                        title="next chapter">tarski.read package</a></p>
+  <p class="topless"><a href="tarski.cli.html"
+                        title="next chapter">tarski.cli module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/tarski.rst.txt"
+      <li><a href="_sources/tarski.write.util.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -143,12 +131,14 @@ blocks world.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tarski.read.html" title="tarski.read package"
+          <a href="tarski.cli.html" title="tarski.cli module"
              >next</a> |</li>
         <li class="right" >
-          <a href="file_format.html" title="Tarski’s World File Format"
+          <a href="tarski.write.plain.html" title="tarski.write.plain module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tarski.write.html" >tarski.write package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

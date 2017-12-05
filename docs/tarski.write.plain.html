@@ -1,0 +1,169 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.write.plain module &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tarski.write.util module" href="tarski.write.util.html" />
+    <link rel="prev" title="tarski.write package" href="tarski.write.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.util.html" title="tarski.write.util module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.html" title="tarski.write package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tarski.write.html" accesskey="U">tarski.write package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-tarski.write.plain">
+<span id="tarski-write-plain-module"></span><h1>tarski.write.plain module<a class="headerlink" href="#module-tarski.write.plain" title="Permalink to this headline">¶</a></h1>
+<p>A Writer for writing to plain text output. It extends <code class="xref py py-class docutils literal"><span class="pre">AbstractModelWriter</span></code>.</p>
+<dl class="class">
+<dt id="tarski.write.plain.PlainModelWriter">
+<em class="property">class </em><code class="descclassname">tarski.write.plain.</code><code class="descname">PlainModelWriter</code><span class="sig-paren">(</span><em>stream=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/plain.html#PlainModelWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.plain.PlainModelWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="tarski.write.html#tarski.write.AbstractModelWriter" title="tarski.write.AbstractModelWriter"><code class="xref py py-class docutils literal"><span class="pre">tarski.write.AbstractModelWriter</span></code></a></p>
+<p>This writer takes models and writes them as plain text to the output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stream</strong> – The stream to write to. Can be any object that has <cite>write</cite> implemented.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="tarski.write.plain.PlainModelWriter.format_description">
+<code class="descname">format_description</code><em class="property"> = 'Output the model to plain text'</em><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.format_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tarski.write.plain.PlainModelWriter.format_name">
+<code class="descname">format_name</code><em class="property"> = 'plain'</em><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.format_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tarski.write.plain.PlainModelWriter.make_identifier">
+<code class="descname">make_identifier</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/plain.html#PlainModelWriter.make_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.make_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn a block into an easily printable identifier.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.write.plain.PlainModelWriter.write_constant">
+<code class="descname">write_constant</code><span class="sig-paren">(</span><em>constant</em>, <em>identifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/plain.html#PlainModelWriter.write_constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.write_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a single constant to the stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.write.plain.PlainModelWriter.write_domain">
+<code class="descname">write_domain</code><span class="sig-paren">(</span><em>domain</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/plain.html#PlainModelWriter.write_domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.write_domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the domain to the stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.write.plain.PlainModelWriter.write_predicate">
+<code class="descname">write_predicate</code><span class="sig-paren">(</span><em>name</em>, <em>extension</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/write/plain.html#PlainModelWriter.write_predicate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.write.plain.PlainModelWriter.write_predicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a predicate to the stream.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tarski.write.html"
+                        title="previous chapter">tarski.write package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tarski.write.util.html"
+                        title="next chapter">tarski.write.util module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tarski.write.plain.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.util.html" title="tarski.write.util module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.html" title="tarski.write package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="tarski.write.html" >tarski.write package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

@@ -50,81 +50,80 @@
 <span class="sd">This module allows for the reading of Tarski&#39;s world files and transforming them into the</span>
 <span class="sd">corresponding formal structures.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">AbstractWorldReader</span><span class="p">,</span> <span class="n">ReaderException</span>
 <span class="kn">from</span> <span class="nn">..world</span> <span class="k">import</span> <span class="n">World</span><span class="p">,</span> <span class="n">Shape</span><span class="p">,</span> <span class="n">Size</span>
 
-<div class="viewcode-block" id="ReadError"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.ReadError">[docs]</a><span class="k">class</span> <span class="nc">ReadError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="TarskiWorldReader"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.TarskiWorldReader">[docs]</a><span class="k">class</span> <span class="nc">TarskiWorldReader</span><span class="p">(</span><span class="n">AbstractWorldReader</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An exception that is throw whenever the Reader finds something that it does not expect.</span>
+<span class="sd">    A reader for reading in Tarski&#39;s World files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+    <span class="n">format_name</span> <span class="o">=</span> <span class="s1">&#39;tarski&#39;</span>
+    <span class="n">format_description</span> <span class="o">=</span> <span class="s2">&quot;The file format in use by Tarski&#39;s World.&quot;</span>
 
-<div class="viewcode-block" id="skip_header"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.skip_header">[docs]</a><span class="k">def</span> <span class="nf">skip_header</span><span class="p">(</span><span class="n">filestream</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Skip enough lines in the file to find the actual number of blocks in this file.</span>
+<div class="viewcode-block" id="TarskiWorldReader.skip_header"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.TarskiWorldReader.skip_header">[docs]</a>    <span class="k">def</span> <span class="nf">skip_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Skip enough lines in the file to find the actual number of blocks in this file.</span>
 
-<span class="sd">    :param file filestream: The filestream to read from. The header should still be intact</span>
-<span class="sd">    :returns: The number of blocks in this file</span>
-<span class="sd">    :rtype: int</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-    <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-    <span class="n">wld</span> <span class="o">=</span> <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="c1"># Version 6, probably</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-    <span class="k">elif</span> <span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="c1"># Version 7, probably</span>
-        <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-        <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ReadError</span><span class="p">(</span><span class="s2">&quot;Unrecognized Wld Type: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
+<span class="sd">        :raises ReaderException: If the Wld Type is not known</span>
+<span class="sd">        :returns: The number of blocks in this file</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="n">wld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="c1"># Version 6, probably</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="c1"># Version 7, probably</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ReaderException</span><span class="p">(</span><span class="s2">&quot;Unrecognized Wld Type: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wld</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="read_numbers"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.read_numbers">[docs]</a><span class="k">def</span> <span class="nf">read_numbers</span><span class="p">(</span><span class="n">filestream</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read the two numbers that are on the next line, and return them as a tuple.</span>
+<div class="viewcode-block" id="TarskiWorldReader.read_numbers"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.TarskiWorldReader.read_numbers">[docs]</a>    <span class="k">def</span> <span class="nf">read_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the two numbers that are on the next line, and return them as a tuple.</span>
 
-<span class="sd">    :param file filestream: The Stream to read from.</span>
-<span class="sd">    :returns: A tuple with the numbers on the next line.</span>
-<span class="sd">    :rtype: tuple(int, int)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">line</span> <span class="o">=</span> <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></div>
+<span class="sd">        :returns: A tuple with the numbers on the next line.</span>
+<span class="sd">        :rtype: tuple(int, int)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="read_block"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.read_block">[docs]</a><span class="k">def</span> <span class="nf">read_block</span><span class="p">(</span><span class="n">filestream</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read the next block from the stream.</span>
+<div class="viewcode-block" id="TarskiWorldReader.read_block"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.TarskiWorldReader.read_block">[docs]</a>    <span class="k">def</span> <span class="nf">read_block</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the next block from the stream.</span>
 
-<span class="sd">    :param file filestream: The stream to read from.</span>
-<span class="sd">    :returns: The information for the next block, as a tuple</span>
-<span class="sd">    :rtype: tuple(Shape, Size, int, int, str)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">shape_num</span><span class="p">,</span> <span class="n">size_num</span> <span class="o">=</span> <span class="n">read_numbers</span><span class="p">(</span><span class="n">filestream</span><span class="p">)</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">read_numbers</span><span class="p">(</span><span class="n">filestream</span><span class="p">)</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ReadError</span><span class="p">(</span><span class="s2">&quot;Expected name, found: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="n">shape_num</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="n">size_num</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+<span class="sd">        :raises ReaderException: If the block name is not given.</span>
+<span class="sd">        :returns: The information for the next block, as a tuple</span>
+<span class="sd">        :rtype: tuple(Shape, Size, int, int, str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape_num</span><span class="p">,</span> <span class="n">size_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_numbers</span><span class="p">()</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_numbers</span><span class="p">()</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ReaderException</span><span class="p">(</span><span class="s2">&quot;Expected name, found: &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="n">shape_num</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="n">size_num</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
 
-<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.read_file">[docs]</a><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">filestream</span><span class="p">,</span> <span class="n">world</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    From a given file, read in all the blocks and add them to `world`. If `world` is not given, a</span>
-<span class="sd">    new world is created for you.</span>
+<div class="viewcode-block" id="TarskiWorldReader.read_world"><a class="viewcode-back" href="../../../tarski.read.tarski.html#tarski.read.tarski.TarskiWorldReader.read_world">[docs]</a>    <span class="k">def</span> <span class="nf">read_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read in a world from the stream. You can also use this to read new blocks into an already</span>
+<span class="sd">        existing world.</span>
 
-<span class="sd">    :param file filestream: The object from which to read the world. Can be any subclass from</span>
-<span class="sd">                            IOBase.</span>
-<span class="sd">    :param World world: The world to read into. Defaults to the empty world</span>
-<span class="sd">    :returns: The new world</span>
-<span class="sd">    :rtype: World</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">world</span><span class="p">:</span>
-        <span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">()</span>
-    <span class="n">num_blocks</span> <span class="o">=</span> <span class="n">skip_header</span><span class="p">(</span><span class="n">filestream</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span><span class="p">):</span>
-        <span class="n">shape</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">read_block</span><span class="p">(</span><span class="n">filestream</span><span class="p">)</span>
-        <span class="n">block</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">add_block</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
-            <span class="n">world</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
-    <span class="n">filestream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">world</span></div>
+<span class="sd">        :param World world: The world to read into. Ignored if not given.</span>
+<span class="sd">        :returns: The new world</span>
+<span class="sd">        :rtype: World</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">world</span><span class="p">:</span>
+            <span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">()</span>
+        <span class="n">num_blocks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_header</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span><span class="p">):</span>
+            <span class="n">shape</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_block</span><span class="p">()</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">add_block</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+                <span class="n">world</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">world</span></div></div>
 </pre></div>
 
           </div>

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="tarski.util module" href="tarski.util.html" />
+    <link rel="next" title="tarski.write package" href="tarski.write.html" />
     <link rel="prev" title="tarski.read package" href="tarski.read.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tarski.util.html" title="tarski.util module"
+          <a href="tarski.write.html" title="tarski.write package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="tarski.read.html" title="tarski.read package"
@@ -58,22 +58,38 @@
 <span id="tarski-read-tarski-module"></span><h1>tarski.read.tarski module<a class="headerlink" href="#module-tarski.read.tarski" title="Permalink to this headline">¶</a></h1>
 <p>This module allows for the reading of Tarski’s world files and transforming them into the
 corresponding formal structures.</p>
-<dl class="exception">
-<dt id="tarski.read.tarski.ReadError">
-<em class="property">exception </em><code class="descclassname">tarski.read.tarski.</code><code class="descname">ReadError</code><a class="reference internal" href="_modules/tarski/read/tarski.html#ReadError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.ReadError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
-<p>An exception that is throw whenever the Reader finds something that it does not expect.</p>
-</dd></dl>
+<dl class="class">
+<dt id="tarski.read.tarski.TarskiWorldReader">
+<em class="property">class </em><code class="descclassname">tarski.read.tarski.</code><code class="descname">TarskiWorldReader</code><span class="sig-paren">(</span><em>stream=&lt;_io.TextIOWrapper name='&lt;stdin&gt;' mode='r' encoding='UTF-8'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#TarskiWorldReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tarski.read.AbstractWorldReader</span></code></p>
+<p>A reader for reading in Tarski’s World files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stream</strong> – The stream to read from. Can be any object that has readline implemented.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="tarski.read.tarski.TarskiWorldReader.format_description">
+<code class="descname">format_description</code><em class="property"> = &quot;The file format in use by Tarski's World.&quot;</em><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.format_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="function">
-<dt id="tarski.read.tarski.read_block">
-<code class="descclassname">tarski.read.tarski.</code><code class="descname">read_block</code><span class="sig-paren">(</span><em>filestream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#read_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.read_block" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="tarski.read.tarski.TarskiWorldReader.format_name">
+<code class="descname">format_name</code><em class="property"> = 'tarski'</em><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.format_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tarski.read.tarski.TarskiWorldReader.read_block">
+<code class="descname">read_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#TarskiWorldReader.read_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.read_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the next block from the stream.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filestream</strong> (<em>file</em>) – The stream to read from.</td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>ReaderException</strong> – If the block name is not given.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The information for the next block, as a tuple</td>
 </tr>
@@ -83,59 +99,50 @@ corresponding formal structures.</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="tarski.read.tarski.read_file">
-<code class="descclassname">tarski.read.tarski.</code><code class="descname">read_file</code><span class="sig-paren">(</span><em>filestream</em>, <em>world=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.read_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>From a given file, read in all the blocks and add them to <cite>world</cite>. If <cite>world</cite> is not given, a
-new world is created for you.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filestream</strong> (<em>file</em>) – The object from which to read the world. Can be any subclass from
-IOBase.</li>
-<li><strong>world</strong> (<a class="reference internal" href="tarski.world.html#tarski.world.World" title="tarski.world.World"><em>World</em></a>) – The world to read into. Defaults to the empty world</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The new world</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="tarski.world.html#tarski.world.World" title="tarski.world.World">World</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="tarski.read.tarski.read_numbers">
-<code class="descclassname">tarski.read.tarski.</code><code class="descname">read_numbers</code><span class="sig-paren">(</span><em>filestream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#read_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.read_numbers" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="tarski.read.tarski.TarskiWorldReader.read_numbers">
+<code class="descname">read_numbers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#TarskiWorldReader.read_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.read_numbers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the two numbers that are on the next line, and return them as a tuple.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filestream</strong> (<em>file</em>) – The Stream to read from.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple with the numbers on the next line.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple with the numbers on the next line.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple(int, int)</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple(int, int)</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="tarski.read.tarski.skip_header">
-<code class="descclassname">tarski.read.tarski.</code><code class="descname">skip_header</code><span class="sig-paren">(</span><em>filestream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#skip_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.skip_header" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="tarski.read.tarski.TarskiWorldReader.read_world">
+<code class="descname">read_world</code><span class="sig-paren">(</span><em>world=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#TarskiWorldReader.read_world"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.read_world" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in a world from the stream. You can also use this to read new blocks into an already
+existing world.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>world</strong> (<a class="reference internal" href="tarski.world.html#tarski.world.World" title="tarski.world.World"><em>World</em></a>) – The world to read into. Ignored if not given.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The new world</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="tarski.world.html#tarski.world.World" title="tarski.world.World">World</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tarski.read.tarski.TarskiWorldReader.skip_header">
+<code class="descname">skip_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/read/tarski.html#TarskiWorldReader.skip_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.read.tarski.TarskiWorldReader.skip_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Skip enough lines in the file to find the actual number of blocks in this file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filestream</strong> (<em>file</em>) – The filestream to read from. The header should still be intact</td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>ReaderException</strong> – If the Wld Type is not known</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of blocks in this file</td>
 </tr>
@@ -143,6 +150,8 @@ IOBase.</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -157,8 +166,8 @@ IOBase.</li>
   <p class="topless"><a href="tarski.read.html"
                         title="previous chapter">tarski.read package</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="tarski.util.html"
-                        title="next chapter">tarski.util module</a></p>
+  <p class="topless"><a href="tarski.write.html"
+                        title="next chapter">tarski.write package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -190,7 +199,7 @@ IOBase.</li>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tarski.util.html" title="tarski.util module"
+          <a href="tarski.write.html" title="tarski.write package"
              >next</a> |</li>
         <li class="right" >
           <a href="tarski.read.html" title="tarski.read package"

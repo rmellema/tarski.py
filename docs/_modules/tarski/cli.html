@@ -1,0 +1,214 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.cli &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for tarski.cli</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A module that holds all the material needed for running the script.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">ArgumentParser</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+
+<span class="kn">from</span> <span class="nn">tarski.model</span> <span class="k">import</span> <span class="n">Model</span>
+
+<div class="viewcode-block" id="get_plugins"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.get_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_plugins</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all the registered plugins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">entry</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="n">group</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="get_input_plugins"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.get_input_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_input_plugins</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all the plugins for loading files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_plugins</span><span class="p">(</span><span class="s2">&quot;tarski.readers&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_output_plugins"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.get_output_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_output_plugins</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all the plugins for outputting models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_plugins</span><span class="p">(</span><span class="s2">&quot;tarski.writers&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="list_input_formats"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.list_input_formats">[docs]</a><span class="k">def</span> <span class="nf">list_input_formats</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List all the input formats that the program understands.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:&lt;20}{}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Format&quot;</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">get_input_plugins</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">format_name</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">format_description</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="list_output_formats"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.list_output_formats">[docs]</a><span class="k">def</span> <span class="nf">list_output_formats</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List all the output formats that the program understands.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:&lt;20}{}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Format&quot;</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">get_output_plugins</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">format_name</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">format_description</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="find_input_plugin"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.find_input_plugin">[docs]</a><span class="k">def</span> <span class="nf">find_input_plugin</span><span class="p">(</span><span class="n">format_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the plugin with name `format_`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">get_input_plugins</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">format_name</span> <span class="o">==</span> <span class="n">format_</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plugin</span></div>
+
+<div class="viewcode-block" id="find_output_plugin"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.find_output_plugin">[docs]</a><span class="k">def</span> <span class="nf">find_output_plugin</span><span class="p">(</span><span class="n">format_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the output plugin with name `format_`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">get_output_plugins</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">format_name</span> <span class="o">==</span> <span class="n">format_</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plugin</span></div>
+
+<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.read_file">[docs]</a><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">format_</span><span class="p">,</span> <span class="n">file_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read in the world as specified in `file`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">format_</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
+        <span class="n">world</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read_world</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="n">world</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="convert"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.convert">[docs]</a><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">iformat</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">oformat</span><span class="p">,</span> <span class="n">use_header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert all the files in `files` into the corresponding first order structures and write them to</span>
+<span class="sd">    the output.</span>
+
+<span class="sd">    :param list[string] files: A list of file names that need to be converted.</span>
+<span class="sd">    :param output: The stream to write the output to.</span>
+<span class="sd">    :param bool use_header: Whether or not to write a header for each file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">use_header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">use_header</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">oformat</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">iformat</span><span class="p">,</span> <span class="n">file_</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_header</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;# </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_</span><span class="p">))</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../tarski.cli.html#tarski.cli.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main entrypoint for the script.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    A utility for translating Tarski&#39;s World files into their corresponding first order structures.</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;files&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The Tarski&#39;s World file to convert.&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--list-input-formats&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Give a list of the accepted input formats and exit&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--list-output-formats&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Give a list of the accepted output formats and exit&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--from&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;tarski&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;from_&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The format of the input file, defaults to tarski&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--to&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;plain&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The output format, defaults to plain&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">list_input_formats</span><span class="p">:</span>
+        <span class="n">list_input_formats</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">list_output_formats</span><span class="p">:</span>
+        <span class="n">list_output_formats</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;the following arguments are required: files&quot;</span><span class="p">)</span>
+    <span class="n">in_plugin</span> <span class="o">=</span> <span class="n">find_input_plugin</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">from_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">in_plugin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;unrecognized input format: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">from_</span><span class="p">))</span>
+    <span class="n">out_plugin</span> <span class="o">=</span> <span class="n">find_output_plugin</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out_plugin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;unrecognized output format: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">to</span><span class="p">))</span>
+    <span class="n">use_header</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">convert</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">files</span><span class="p">,</span> <span class="n">in_plugin</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">out_plugin</span><span class="p">,</span> <span class="n">use_header</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

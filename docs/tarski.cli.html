@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tarski.cli module &#8212; tarski.py 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tarski.model module" href="tarski.model.html" />
+    <link rel="prev" title="tarski.write.util module" href="tarski.write.util.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.model.html" title="tarski.model module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.util.html" title="tarski.write.util module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" accesskey="U">tarski package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-tarski.cli">
+<span id="tarski-cli-module"></span><h1>tarski.cli module<a class="headerlink" href="#module-tarski.cli" title="Permalink to this headline">¶</a></h1>
+<p>A module that holds all the material needed for running the script.</p>
+<dl class="function">
+<dt id="tarski.cli.convert">
+<code class="descclassname">tarski.cli.</code><code class="descname">convert</code><span class="sig-paren">(</span><em>files</em>, <em>iformat</em>, <em>output</em>, <em>oformat</em>, <em>use_header=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert all the files in <cite>files</cite> into the corresponding first order structures and write them to
+the output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> (<em>list</em><em>[</em><em>string</em><em>]</em>) – A list of file names that need to be converted.</li>
+<li><strong>output</strong> – The stream to write the output to.</li>
+<li><strong>use_header</strong> (<em>bool</em>) – Whether or not to write a header for each file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.find_input_plugin">
+<code class="descclassname">tarski.cli.</code><code class="descname">find_input_plugin</code><span class="sig-paren">(</span><em>format_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#find_input_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.find_input_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the plugin with name <cite>format_</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.find_output_plugin">
+<code class="descclassname">tarski.cli.</code><code class="descname">find_output_plugin</code><span class="sig-paren">(</span><em>format_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#find_output_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.find_output_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the output plugin with name <cite>format_</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.get_input_plugins">
+<code class="descclassname">tarski.cli.</code><code class="descname">get_input_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#get_input_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.get_input_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the plugins for loading files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.get_output_plugins">
+<code class="descclassname">tarski.cli.</code><code class="descname">get_output_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#get_output_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.get_output_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the plugins for outputting models.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.get_plugins">
+<code class="descclassname">tarski.cli.</code><code class="descname">get_plugins</code><span class="sig-paren">(</span><em>group</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#get_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.get_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the registered plugins.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.list_input_formats">
+<code class="descclassname">tarski.cli.</code><code class="descname">list_input_formats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#list_input_formats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.list_input_formats" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all the input formats that the program understands.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.list_output_formats">
+<code class="descclassname">tarski.cli.</code><code class="descname">list_output_formats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#list_output_formats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.list_output_formats" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all the output formats that the program understands.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.main">
+<code class="descclassname">tarski.cli.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main entrypoint for the script.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tarski.cli.read_file">
+<code class="descclassname">tarski.cli.</code><code class="descname">read_file</code><span class="sig-paren">(</span><em>format_</em>, <em>file_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tarski/cli.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tarski.cli.read_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in the world as specified in <cite>file</cite>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tarski.write.util.html"
+                        title="previous chapter">tarski.write.util module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tarski.model.html"
+                        title="next chapter">tarski.model module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tarski.cli.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tarski.model.html" title="tarski.model module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tarski.write.util.html" title="tarski.write.util module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">tarski.py 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="tarski.html" >tarski package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, René Mellema.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
