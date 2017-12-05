@@ -13,26 +13,21 @@ import sys
 class AbstractWorldReader(ABC):
     """
     The abstract class that defines the interface in use for `Reader`s.
+     .. py:attribute:: format_name
+
+        The name of the format as a string. Must be overridden by implementations and have a maximum
+        length of 20.
+
+    .. py:attribute:: format_description
+
+        A short description of this format as a string. Must be overridden by implementations and
+        have a maximum length of 60.
     """
     def __init__(self, stream=sys.stdin):
         """
         :param stream: The stream to read from. Can be any object that has readline implemented.
         """
         self.stream = stream
-
-    @property
-    @abstractmethod
-    def format_name(self):
-        """
-        The name of the format as a string. Must be overridden by implementations.
-        """
-
-    @property
-    @abstractmethod
-    def format_description(self):
-        """
-        A short description of this format as a string. Must be overridden by implementations.
-        """
 
     @abstractmethod
     def read_world(self):

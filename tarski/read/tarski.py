@@ -9,13 +9,8 @@ class TarskiWorldReader(AbstractWorldReader):
     """
     A reader for reading in Tarski's World files.
     """
-    def format_name(self):
-        "The name of the format. Required by ABC"
-        return "tarski"
-
-    def format_description(self):
-        "A short description of the format. Required by ABC"
-        return "The file format in use by Tarski's World."
+    format_name = 'tarski'
+    format_description = "The file format in use by Tarski's World."
 
     def skip_header(self):
         """
