@@ -11,6 +11,7 @@ Submodules
 
 .. toctree::
 
+   tarski.write.latex
    tarski.write.plain
    tarski.write.util
 
