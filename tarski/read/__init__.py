@@ -39,7 +39,7 @@ class AbstractWorldReader(ABC):
         :rtype: World
         """
 
-def ReaderException(Exception):
+class ReaderException(Exception):
     """
     An exception that can be raised by object implementing :py:class:`AbstractWorldReader` when an
     exception happens during reading.
