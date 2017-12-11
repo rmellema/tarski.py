@@ -184,14 +184,15 @@ class Block:
         :param Block first: The first block for the test
         :param Block second: The second block for the test
         """
-        if (first.x < self.x < second.x or first.x > self.x > second.x) and \
-           (first.y < self.y < second.y or first.y > self.y > second.y): # self is in between
-            if self.in_same_row(first) and self.in_same_row(second): # All same row
-                return True
-            if self.in_same_column(first) and self.in_same_column(second): # All same column
-                return True
+        if self.in_same_row(first) and self.in_same_row(second):
+            return first.x < self.x < second.x or first.x > self.x > second.x
+        elif self.in_same_column(first) and self.in_same_column(second):
+            return first.y < self.y < second.y or first.y > self.y > second.y
+        else: # Check for the diagonal
             sdc = self.x - self.y
-            return (sdc == first.x - first.y) and (sdc == second.x - second.y) # All same diagonal
+            if (sdc == first.x - first.y) and (sdc == second.x - second.y): # All same diagonal
+                return ((first.x < self.x < second.x) or (first.x > self.x > second.x)) and \
+                       ((first.y < self.y < second.y) or (first.y > self.y > second.y))
         return False
 
 class World:
