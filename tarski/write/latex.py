@@ -6,7 +6,12 @@ from .util import make_pair
 
 class LaTeXModelWriter(AbstractModelWriter):
     """
-    The LaTeX output writer. The resulting LaTeX output will require the amsmath package.
+    The LaTeX output writer. The resulting LaTeX output is not a full document, so it can be
+    included in documents. It depends on `amsmath`, `amssymb`, and `breqn`, and you need to include
+    the following lines in the preamble of your latex document::
+
+        \\DeclareFlexCompoundSymbol{\\mycomb}{Bin}{}
+        \\newcommand{\\mycom}{,\\mycomb}
     """
     format_name = 'latex'
     format_description = 'Write the Model to a TeXable representation.'
@@ -21,44 +26,42 @@ class LaTeXModelWriter(AbstractModelWriter):
         """
         Write the domain to the stream.
         """
-        self.stream.write("\\begin{align*}\n\tD &= \\left\\{")
-        self.stream.write(', '.join(self.make_identifier(id) for id in domain))
-        self.stream.write('\\right\\}\n\\end{align*}')
+        self.stream.write("\\begin{dmath*}\n\tD = \\left\\{")
+        self.stream.write('\\mycom '.join(self.make_identifier(id) for id in domain))
+        self.stream.write('\\right\\}\n\\end{dmath*}')
 
     def write_constant(self, constant, identifier):
         """
         Write a single constant to the stream.
         """
+        self.stream.write('\\begin{dmath*}\n')
         self.stream.write('(')
         self.stream.write(constant)
-        self.stream.write(')^{\\mathfrak{M}} &= ')
+        self.stream.write(')^{\\mathfrak{M}} = ')
         self.stream.write(self.make_identifier(identifier))
-        self.stream.write(r'\\')
-
-    def write_constants(self, constants):
-        """
-        Write all the constants to the stream.
-        """
-        self.stream.write('\\begin{align*}\n')
-        super().write_constants(constants)
-        self.stream.write('\\end{align*}\n')
+        self.stream.write(r'\end{dmath*}')
 
     def write_predicate(self, name, extension):
         """
         Write a predicat to the stream.
         """
+        self.stream.write(r"\begin{dmath*}")
         self.stream.write(r"\mathfrak{M}(\mathit{")
         self.stream.write(name)
-        self.stream.write(r"}) &= \left\{ ")
-        self.stream.write(', '.join(make_pair((self.make_identifier(id) for id in pair),
-                                              '\\langle', '\\rangle')
-                                    for pair in extension))
-        self.stream.write(r"\right\}\\")
+        self.stream.write(r"}) = \left\{ ")
+        self.stream.write(r'\mycom '.join(make_pair((self.make_identifier(id) for id in pair),
+                                                    '\\langle', '\\rangle')
+                                          for pair in extension))
+        self.stream.write(r"\right\}")
+        self.stream.write(r"\end{dmath*}")
 
-    def write_predicates(self, predicates):
+    def write_model(self, model):
         """
-        Write the predicates to the stream.
+        Write the model to the stream. Makes sure that all the `=` signs in the equations are
+        aligned by wrapping all equations in a `dgroup*`.
+
+        :param Model model: The model to write to the stream.
         """
-        self.stream.write('\\begin{align*}\n')
-        super().write_predicates(predicates)
-        self.stream.write('\\end{align*}\n')
+        self.stream.write('\\begin{dgroup*}\n')
+        super().write_model(model)
+        self.stream.write('\\end{dgroup*}\n')
