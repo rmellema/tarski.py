@@ -5,6 +5,7 @@ import sys
 from argparse import ArgumentParser
 import pkg_resources
 
+import tarski
 from tarski.model import Model
 
 def get_plugins(group):
@@ -96,6 +97,8 @@ def main():
     A utility for translating Tarski's World files into their corresponding first order structures.
     """)
     parser.add_argument("files", help="The Tarski's World file to convert.", nargs='*')
+    parser.add_argument("--version", action="version",
+                        version="tarski.py {}".format(tarski.__VERSION__))
     parser.add_argument("--list-input-formats", action="store_true",
                         help="Give a list of the accepted input formats and exit")
     parser.add_argument("--list-output-formats", action="store_true",
