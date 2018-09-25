@@ -86,6 +86,8 @@ autoclass_content = 'both'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+# Order the function names by declaration, not name
+autodoc_member_order = 'bysource'
 
 # -- Options for HTML output ----------------------------------------------
 
