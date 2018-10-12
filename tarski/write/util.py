@@ -2,7 +2,7 @@
 A collection of utility functions for writing the models.
 """
 
-def make_pair(coll, lbracket = '<', rbracket = '>'):
+def make_pair(coll, lbracket='<', rbracket='>'):
     """
     A context aware function for making a string representation of elements of relationships.
     It takes into account the length of the element. If there is just one element, the brackets are

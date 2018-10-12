@@ -53,6 +53,7 @@ def find_input_plugin(format_):
     for plugin in get_input_plugins():
         if plugin.format_name == format_:
             return plugin
+    return None
 
 def find_output_plugin(format_):
     """
@@ -61,6 +62,7 @@ def find_output_plugin(format_):
     for plugin in get_output_plugins():
         if plugin.format_name == format_:
             return plugin
+    return None
 
 def read_file(format_, file_):
     """
@@ -110,10 +112,10 @@ def main():
     args = parser.parse_args()
     if args.list_input_formats:
         list_input_formats()
-        return 0
+        return
     if args.list_output_formats:
         list_output_formats()
-        return 0
+        return
     if not args.files:
         parser.error("the following arguments are required: files")
     in_plugin = find_input_plugin(args.from_)

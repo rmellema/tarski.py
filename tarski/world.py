@@ -140,7 +140,7 @@ class Block:
         """
         if self.in_same_row(other):
             return abs(self.x - other.x) == 1
-        elif self.in_same_column(other):
+        if self.in_same_column(other):
             return abs(self.y - other.y) == 1
         return False
 
@@ -186,13 +186,13 @@ class Block:
         """
         if self.in_same_row(first) and self.in_same_row(second):
             return first.x < self.x < second.x or first.x > self.x > second.x
-        elif self.in_same_column(first) and self.in_same_column(second):
+        if self.in_same_column(first) and self.in_same_column(second):
             return first.y < self.y < second.y or first.y > self.y > second.y
-        else: # Check for the diagonal
-            sdc = self.x - self.y
-            if (sdc == first.x - first.y) and (sdc == second.x - second.y): # All same diagonal
-                return ((first.x < self.x < second.x) or (first.x > self.x > second.x)) and \
-                       ((first.y < self.y < second.y) or (first.y > self.y > second.y))
+        # Check for the diagonal
+        sdc = self.x - self.y
+        if (sdc == first.x - first.y) and (sdc == second.x - second.y): # All same diagonal
+            return ((first.x < self.x < second.x) or (first.x > self.x > second.x)) and \
+                   ((first.y < self.y < second.y) or (first.y > self.y > second.y))
         return False
 
 class World:
@@ -279,9 +279,7 @@ class World:
         """
         if loc is None:
             locs = [(block.x, block.y) for block in self.domain]
-            print(locs)
-            for y, x in product(range(self.x_size), range(self.y_size)):
-                print((x, y))
+            for y, x in product(range(self.y_size), range(self.x_size)):
                 if (x, y) not in locs:
                     loc = (x, y)
                     break

@@ -25,12 +25,11 @@ class TarskiWorldReader(AbstractWorldReader):
         wld = self.stream.readline().strip()
         if wld[-1] == 'P': # Version 6, probably
             return int(self.stream.readline().strip())
-        elif wld[-1] == 'F': # Version 7, probably
+        if wld[-1] == 'F': # Version 7, probably
             self.stream.readline()
             self.stream.readline()
             return int(self.stream.readline().strip())
-        else:
-            raise ReaderException("Unrecognized Wld Type: '{}'".format(wld[-1]))
+        raise ReaderException("Unrecognized Wld Type: '{}'".format(wld[-1]))
 
     def read_numbers(self):
         """

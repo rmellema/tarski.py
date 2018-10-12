@@ -96,7 +96,7 @@ class Model:
                 if block == first:
                     continue
                 for second in world.domain:
-                    if block == second or first == second:
+                    if second in (block, first):
                         continue
                     if first.in_between(first, second):
                         self.add_to_extension("Between", [block.identifier, first.identifier,
