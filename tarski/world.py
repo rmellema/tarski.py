@@ -219,6 +219,19 @@ class World:
         self.domain = set()
         self._constants = {}
 
+    def turn_clockwise(self):
+        "Turn this world clockwise by 90 degrees"
+        self.x_size, self.y_size = self.y_size, self.x_size
+        for block in self.domain:
+            block.x, block.y = -block.y + self.x_size - 1, block.x
+
+    def turn_counterclockwise(self):
+        "Turn this world counterclockwise by 90 degrees"
+        self.x_size, self.y_size = self.y_size, self.x_size
+        for block in self.domain:
+            block.x, block.y = block.y, -block.x + self.y_size - 1
+
+
     def __str__(self):
         "Return a string representation of the world"
         blocks = [str(block) for block in self.domain]
