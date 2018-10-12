@@ -15,6 +15,16 @@ class Shape(Enum):
     TET = TETRAHEDRON
     DODEC = DODECAHEDRON
 
+    def as_letter(self):
+        "Get a one letter representation of the Shape"
+        if self == Shape.TETRAHEDRON:
+            return 'T'
+        if self == Shape.CUBE:
+            return 'C'
+        if self == Shape.DODECAHEDRON:
+            return 'D'
+        return None
+
 class Size(OrderedEnum):
     """
     Describes the different sizes that an object can have. They are sorted so "Small" is the
@@ -23,6 +33,16 @@ class Size(OrderedEnum):
     SMALL = 1
     MEDIUM = 2
     LARGE = 3
+
+    def as_letter(self):
+        "Get a one letter representation of the Size"
+        if self == Size.SMALL:
+            return 'S'
+        if self == Size.MEDIUM:
+            return 'M'
+        if self == Size.LARGE:
+            return 'L'
+        return None
 
 class Block:
     """
@@ -237,6 +257,40 @@ class World:
         blocks = [str(block) for block in self.domain]
         names = [str((name, str(self.get_constant(name)))) for name in self._constants]
         return "<World: [{}]\n\t[{}]>".format(' '.join(blocks), ' '.join(names))
+
+    def pretty_string(self):
+        "Return a pretty string representation of the world"
+        hsep = '--'.join('+' for _ in range(self.x_size + 1))
+        blocks = [block for block in self.domain]
+        blocks.sort(key=lambda b: (b.y, b.x))
+        row, col = 0, 0
+        board = []
+        line = []
+        header = []
+        for constant in self.all_constants():
+            blck = self.get_constant(constant)
+            header.append('{}: ({}, {})'.format(constant, blck.x, blck.y))
+        header = '\n'.join(header)
+        try:
+            block = blocks.pop(0)
+        except IndexError:
+            block = Block(None, None, None, self.x_size, self.y_size)
+        for row in range(self.y_size):
+            for col in range(self.x_size):
+                if block.y == row:
+                    if block.x == col:
+                        line.append(block.size.as_letter() + block.shape.as_letter())
+                        try:
+                            block = blocks.pop(0)
+                        except IndexError: # There are no blocks left, so fill until done
+                            block = Block(None, None, None, self.x_size, self.y_size)
+                    else:
+                        line.append('  ')
+                else:
+                    line.append('  ')
+            board.append('|' + '|'.join(line) + '|')
+            line = []
+        return header + '\n' + hsep + '\n' + ('\n' + hsep + '\n').join(board) + '\n' + hsep
 
     def add_constant(self, name, block):
         """
