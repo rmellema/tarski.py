@@ -9,9 +9,9 @@ allows for the following more readable format::
     Predicate("Larger", 'a', 'x') & ~(Predicate("Smaller", 'c', 'x') | Predicate("Small", 'c'))
 
 Besides the definitions for formulas, this module also contains functions for identifying constants
-and variables, which are needed for the implementation of the method :py:meth:`Formula.vars vars`.
-A variable is any string starting with one of the letters in :const:`VARIABLES`. This means that `x`
-is a valid variable, but so is `x1`, or even `_variable`.
+and variables, which are needed for the implementation of the method :py:meth:`~.Formula.vars`.
+A variable is any string starting with one of the letters in :const:`VARIABLES`. This means that
+``x`` is a valid variable, but so is ``x1``, or even ``_variable``.
 
 .. py:attribute:: CONSTANTS
 

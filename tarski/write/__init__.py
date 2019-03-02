@@ -3,8 +3,8 @@ This module is for writing the formal structure or the block world in different 
 done by defining abstract base classes for Writers, which can then be implemented by Writers for
 specific formats.
 
-If you want to support additional formats, you can use the `tarski.writers` entry point in your
-`setup.py`.
+If you want to support additional formats, you can use the ``tarski.writers`` entry point in your
+``setup.py``.
 """
 
 from abc import ABC, abstractmethod
@@ -12,7 +12,9 @@ import sys
 
 class AbstractModelWriter(ABC):
     """
-    The abstract class that defines the interface in use for `Writer` s.
+    The abstract class that defines the interface in use for ``Writer`` s.
+
+    :param stream: The stream to write to. Can be any object that has ``write`` implemented.
 
     .. py:attribute:: format_name
 
@@ -25,9 +27,6 @@ class AbstractModelWriter(ABC):
         and have a maximum lenght of 60.
     """
     def __init__(self, stream=sys.stdout):
-        """
-        :param stream: The stream to write to. Can be any object that has `write` implemented.
-        """
         self.stream = stream
 
     @abstractmethod
@@ -70,8 +69,8 @@ class AbstractModelWriter(ABC):
 
     def write_predicates(self, predicates):
         """
-        Write all the predicates in `predicates` to the stream on their own line in order of
-        appereance. Can be overwritten of other behaviour is required.
+        Write all the predicates in ``predicates`` to the stream on their own line in order of
+        appereance. Can be overwritten if other behaviour is required.
 
         :param predicates: The predicates to write to the stream.
         :type predicates: dict[str, tuple[Block]]

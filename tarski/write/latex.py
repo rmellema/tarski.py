@@ -43,7 +43,7 @@ class LaTeXModelWriter(AbstractModelWriter):
 
     def write_predicate(self, name, extension):
         """
-        Write a predicat to the stream.
+        Write a predicate to the stream.
         """
         self.stream.write(r"\begin{dmath*}")
         self.stream.write(r"\mathfrak{M}(\mathit{")

@@ -52,15 +52,15 @@ class Block:
     .. py:attribute:: identifier
 
         An unique identifier for this block. The creator of the Block must make sure it is
-        unique.
+        unique. Should not be changed.
 
     .. py:attribute:: shape
 
-        The shape of this Block.
+        The shape of this :py:class:`.Block` as a :py:class:`.Shape`.
 
     .. py:attribute:: size
 
-        The size of this block
+        The size of this :py:`.Block` as a :py:class:`.Size`.
 
     .. py:attribute:: x
 
@@ -113,11 +113,19 @@ class Block:
         return self.size == Size.LARGE
 
     def is_same_size(self, other):
-        "Tests if the blocks are the same size"
+        """
+        Tests if the blocks are the same size.
+
+        :param Block other: The block to test against.
+        """
         return self.size == other.size
 
     def is_same_shape(self, other):
-        "Tests if the blocks are the same shape"
+        """
+        Tests if the blocks are the same shape.
+
+        :param Block other: The block to test against.
+        """
         return self.shape == other.shape
 
     def is_smaller(self, other):

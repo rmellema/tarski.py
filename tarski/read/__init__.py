@@ -5,15 +5,17 @@ formats.
 
 Currently only Tarski's World is supported.
 """
-__all__ = ['tarski']
 
 from abc import ABC, abstractmethod
 import sys
 
 class AbstractWorldReader(ABC):
     """
-    The abstract class that defines the interface in use for `Reader`s.
-     .. py:attribute:: format_name
+    The abstract class that defines the interface in use for ``Reader`` s.
+
+    :param stream: The stream to read from. Can be any object that has readline implemented.
+
+    .. py:attribute:: format_name
 
         The name of the format as a string. Must be overridden by implementations and have a maximum
         length of 20.
@@ -24,17 +26,15 @@ class AbstractWorldReader(ABC):
         have a maximum length of 60.
     """
     def __init__(self, stream=sys.stdin):
-        """
-        :param stream: The stream to read from. Can be any object that has readline implemented.
-        """
         self.stream = stream
 
     @abstractmethod
-    def read_world(self):
+    def read_world(self, world=None):
         """
         A method that reads in a world from the stream. Must be overridden by implementations.
 
         :raises ReaderException: When an exception occurs during reading
+        :param World world: The world to read into, if given. Defaults to ``None``.
         :returns: The next world from the stream.
         :rtype: World
         """

@@ -1,6 +1,6 @@
 """
 A module for representing the actual first-order structure of a Block World. The structure can
-either be made from a World, or be made by hand.
+either be made from a :py:class:`.World`, or be made by hand.
 """
 
 class Model:
@@ -8,6 +8,9 @@ class Model:
     The model that represents the first-order structure.
     """
     def __init__(self, *, world=None):
+        """
+        :param World world: The world to create a model from, or ``None``.
+        """
         self._last_entity = 0
         self.domain = set()
         self.constants = dict()
