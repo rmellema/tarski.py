@@ -57,10 +57,10 @@ class Formula(ABC):
         "Return a simplified but logically equivalent form of this formula."
 
     def __and__(self, other):
-        return And(self, other).simplified()
+        return And(self, other).flattened()
 
     def __or__(self, other):
-        return Or(self, other).simplified()
+        return Or(self, other).flattened()
 
     def __invert__(self):
         return Not(self)
@@ -110,14 +110,18 @@ class And(Formula):
     def __str__(self):
         return ' & '.join(c.__inner_str__() for c in self.conjuncts)
 
-    def simplified(self):
-        conjuncts = set()
+    def flattened(self):
+        "Return a version of this formula where none of the conjuncts are a conjunction."
+        conjuncts = []
         for conjunct in self.conjuncts:
-            conj = conjunct.simplified()
-            if isinstance(conj, And):
-                conjuncts.update(conj.conjuncts)
+            if isinstance(conjunct, And):
+                conjuncts.extend(conjunct.flattened().conjuncts)
             else:
-                conjuncts.add(conj)
+                conjuncts.append(conjunct)
+        return And(*conjuncts)
+
+    def simplified(self):
+        conjuncts = set(conjunct.simplified() for conjunct in self.flattened().conjuncts)
         if len(conjuncts) == 1:
             return conjuncts.pop()
         return And(*conjuncts)
@@ -133,14 +137,18 @@ class Or(Formula):
     def __str__(self):
         return ' | '.join(c.__inner_str__() for c in self.disjuncts)
 
-    def simplified(self):
-        disjuncts = set()
+    def flattened(self):
+        "Return a version of this formula where none of the disjuncts are a disjunction."
+        disjuncts = []
         for disjunct in self.disjuncts:
-            disj = disjunct.simplified()
-            if isinstance(disj, Or):
-                disjuncts.update(disj.disjuncts)
+            if isinstance(disjunct, Or):
+                disjuncts.extend(disjunct.flattened().disjuncts)
             else:
-                disjuncts.add(disj)
+                disjuncts.append(disjunct)
+        return Or(*disjuncts)
+
+    def simplified(self):
+        disjuncts = set(disjunct.simplified() for disjunct in self.flattened().disjuncts)
         if len(disjuncts) == 1:
             return disjuncts.pop()
         return Or(*disjuncts)
