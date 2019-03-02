@@ -1,5 +1,5 @@
-tarski\.write\.util module
-==========================
+tarski.write.util module
+========================
 
 .. automodule:: tarski.write.util
     :members:

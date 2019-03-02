@@ -1,5 +1,5 @@
-tarski\.util module
-===================
+tarski.util module
+==================
 
 .. automodule:: tarski.util
     :members:

@@ -20,7 +20,10 @@ Submodules
 .. toctree::
 
    tarski.cli
+   tarski.evaluator
+   tarski.formula
    tarski.model
+   tarski.shell
    tarski.util
    tarski.world
 

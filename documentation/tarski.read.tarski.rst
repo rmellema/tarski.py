@@ -1,5 +1,5 @@
-tarski\.read\.tarski module
-===========================
+tarski.read.tarski module
+=========================
 
 .. automodule:: tarski.read.tarski
     :members:

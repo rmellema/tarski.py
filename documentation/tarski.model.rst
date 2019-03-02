@@ -1,5 +1,5 @@
-tarski\.model module
-====================
+tarski.model module
+===================
 
 .. automodule:: tarski.model
     :members:

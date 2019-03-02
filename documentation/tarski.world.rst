@@ -1,5 +1,5 @@
-tarski\.world module
-====================
+tarski.world module
+===================
 
 .. automodule:: tarski.world
     :members:

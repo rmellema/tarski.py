@@ -1,5 +1,5 @@
-tarski\.write\.plain module
-===========================
+tarski.write.plain module
+=========================
 
 .. automodule:: tarski.write.plain
     :members:

@@ -1,5 +1,5 @@
-tarski\.cli module
-==================
+tarski.cli module
+=================
 
 .. automodule:: tarski.cli
     :members:

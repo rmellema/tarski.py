@@ -1,5 +1,5 @@
-tarski\.write package
-=====================
+tarski.write package
+====================
 
 .. automodule:: tarski.write
     :members:

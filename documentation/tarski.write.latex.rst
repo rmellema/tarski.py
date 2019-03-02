@@ -1,5 +1,5 @@
-tarski\.write\.latex module
-===========================
+tarski.write.latex module
+=========================
 
 .. automodule:: tarski.write.latex
     :members:
