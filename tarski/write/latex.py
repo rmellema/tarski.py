@@ -34,10 +34,10 @@ class LaTeXModelWriter(AbstractModelWriter):
         """
         Write a single constant to the stream.
         """
-        self.stream.write('\\begin{dmath*}\n')
-        self.stream.write('(')
+        self.stream.write('\\begin{dmath*}')
+        self.stream.write('{')
         self.stream.write(constant)
-        self.stream.write(')^{\\mathfrak{M}} = ')
+        self.stream.write('}^{\\mathfrak{M}} = ')
         self.stream.write(self.make_identifier(identifier))
         self.stream.write(r'\end{dmath*}')
 
@@ -48,11 +48,15 @@ class LaTeXModelWriter(AbstractModelWriter):
         self.stream.write(r"\begin{dmath*}")
         self.stream.write(r"\mathfrak{M}(\mathit{")
         self.stream.write(name)
-        self.stream.write(r"}) = \left\{ ")
-        self.stream.write(r'\mycom '.join(make_pair((self.make_identifier(id) for id in pair),
-                                                    '\\langle', '\\rangle')
-                                          for pair in extension))
-        self.stream.write(r"\right\}")
+        self.stream.write(r"}) = ")
+        if extension:
+            self.stream.write(r"\left\{ ")
+            self.stream.write(r'\mycom '.join(make_pair((self.make_identifier(id) for id in pair),
+                                                        '\\langle', '\\rangle')
+                                              for pair in extension))
+            self.stream.write(r"\right\}")
+        else:
+            self.stream.write(r"\emptyset")
         self.stream.write(r"\end{dmath*}")
 
     def write_model(self, model):

@@ -55,7 +55,7 @@ class AbstractModelWriter(ABC):
         :param constants: The constants to write
         :type constants: dict[str, Block]
         """
-        for constant, entity in constants.items():
+        for constant, entity in sorted(constants.items()):
             self.write_constant(constant, entity)
             self.stream.write('\n')
 
@@ -77,7 +77,7 @@ class AbstractModelWriter(ABC):
         :type predicates: dict[str, tuple[Block]]
         """
         for predicate, extension in predicates.items():
-            self.write_predicate(predicate, extension)
+            self.write_predicate(predicate, sorted(extension))
             self.stream.write('\n')
 
     def write_model(self, model):

@@ -66,15 +66,15 @@ class Model:
                     self.add_to_extension("SameSize", [block.identifier, other.identifier])
                 if block.is_same_shape(other):
                     self.add_to_extension("SameShape", [block.identifier, other.identifier])
+                if block.in_same_column(other):
+                    self.add_to_extension("SameCol", [block.identifier, other.identifier])
+                if block.in_same_row(other):
+                    self.add_to_extension("SameRow", [block.identifier, other.identifier])
                 if block != other:
                     if block.is_smaller(other):
                         self.add_to_extension("Smaller", [block.identifier, other.identifier])
                     if block.is_larger(other):
                         self.add_to_extension("Larger", [block.identifier, other.identifier])
-                    if block.in_same_column(other):
-                        self.add_to_extension("SameCol", [block.identifier, other.identifier])
-                    if block.in_same_row(other):
-                        self.add_to_extension("SameRow", [block.identifier, other.identifier])
                     if block.does_adjoin(other):
                         self.add_to_extension("Adjoins", [block.identifier, other.identifier])
                     if block.is_left_of(other):
