@@ -192,8 +192,11 @@ class ForAll(Formula):
         self.variable = variable
         self.formula = formula
 
-    def __str__(self):
+    def __inner_str__(self):
         return '@' + self.variable + ' '+ self.formula.__inner_str__()
+
+    def __str__(self):
+        return self.__inner_str__()
 
     def simplified(self):
         return ForAll(self.variable, self.formula.simplied())
@@ -210,8 +213,11 @@ class Exists(Formula):
         self.variable = variable
         self.formula = formula
 
-    def __str__(self):
+    def __inner_str__(self):
         return '#' + self.variable + ' ' + self.formula.__inner_str__()
+
+    def __str__(self):
+        return self.__inner_str__()
 
     def simplified(self):
         return ForAll(self.variable, self.formula.simplied())
